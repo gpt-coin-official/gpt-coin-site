@@ -332,7 +332,7 @@ footer{
 <p>Cryptocurrency involves risk. Do your own research before participating.</p>
 </footer>
 
-<section id="ai-chat" style="max-width:700px;margin:40px auto;padding:20px;background:#111827;color:white;border-radius:16px;font-family:Arial;">
+
 <section class="chat-shell" id="ai-chat">
   <div class="chat-panel">
     <div class="chat-heading">
@@ -362,6 +362,8 @@ footer{
     </div>
   </div>
 </section>
+
+ 
 <script>
 (function () {
   const endpoint = "https://gpt-coin-ai.joguabhinay.workers.dev/";
@@ -373,11 +375,41 @@ footer{
   let history = [];
 
   function addMessage(who, text) {
-    const p = document.createElement("p");
-    p.textContent = who + ": " + text;
-    messages.appendChild(p);
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble " + (who === "You" ? "user" : "ai");
+
+    const label = document.createElement("span");
+    label.className = "chat-label";
+    label.textContent = who;
+
+    const body = document.createElement("span");
+    body.textContent = text;
+
+    bubble.appendChild(label);
+    bubble.appendChild(body);
+    messages.appendChild(bubble);
     messages.scrollTop = messages.scrollHeight;
-    return p;
+    return bubble;
+  }
+
+  function addTyping() {
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble ai";
+    bubble.id = "chat-typing";
+
+    const label = document.createElement("span");
+    label.className = "chat-label";
+    label.textContent = "GPT Coin AI is typing";
+
+    const dots = document.createElement("span");
+    dots.className = "typing-dots";
+    dots.innerHTML = "<span></span><span></span><span></span>";
+
+    bubble.appendChild(label);
+    bubble.appendChild(dots);
+    messages.appendChild(bubble);
+    messages.scrollTop = messages.scrollHeight;
+    return bubble;
   }
 
   function saveHistory() {
@@ -404,23 +436,22 @@ footer{
         const text = item.parts.map(part =>
           typeof part?.text === "string" ? part.text : ""
         ).join("");
-
         if (text) addMessage(item.role === "user" ? "You" : "GPT Coin AI", text);
       }
     } catch (error) {
       history = [];
-      localStorage.removeItem(storageKey);
     }
   }
 
   async function sendMessage() {
     const message = input.value.trim();
-    if (!message) return;
+    if (!message || button.disabled) return;
 
     input.value = "";
     addMessage("You", message);
-    const loading = addMessage("GPT Coin AI", "Thinking...");
+    const typing = addTyping();
     button.disabled = true;
+    button.textContent = "Sending...";
 
     try {
       const response = await fetch(endpoint, {
@@ -434,36 +465,36 @@ footer{
         throw new Error(data.error || "AI request failed");
       }
 
-      loading.textContent = "GPT Coin AI: " + data.reply;
+      typing.remove();
+      addMessage("GPT Coin AI", data.reply);
 
       history.push(
         { role: "user", parts: [{ text: message }] },
         { role: "model", parts: [{ text: data.reply }] }
       );
-
       history = history.slice(-10);
       saveHistory();
-
     } catch (error) {
-      loading.textContent = "GPT Coin AI: Error: " + error.message;
+      typing.remove();
+      addMessage("GPT Coin AI", "Sorry, something went wrong: " + error.message);
     } finally {
       button.disabled = false;
+      button.textContent = "Send";
       input.focus();
     }
   }
 
-  if (clearButton) {
-    clearButton.addEventListener("click", function () {
-      history = [];
+  clearButton.addEventListener("click", function () {
+    history = [];
+    try {
       localStorage.removeItem(storageKey);
-      messages.innerHTML = "";
-      addMessage("GPT Coin AI", "Hello! How can I help you?");
-      input.focus();
-    });
-  }
+    } catch (error) {}
+    messages.innerHTML = "";
+    addMessage("GPT Coin AI", "Hello! How can I help you?");
+    input.focus();
+  });
 
   loadHistory();
-
   button.addEventListener("click", sendMessage);
   input.addEventListener("keydown", function (event) {
     if (event.key === "Enter") sendMessage();
