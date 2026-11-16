@@ -187,14 +187,15 @@ footer{
     <button id="chat-send" style="padding:12px;background:#7c3aed;color:white;border:0;border-radius:8px;">Send</button>
   </div>
 </section>
-
 <script>
 (function () {
   const endpoint = "https://gpt-coin-ai.joguabhinay.workers.dev/";
+  const storageKey = "gptCoinAIChatHistory";
   const messages = document.getElementById("chat-messages");
   const input = document.getElementById("chat-input");
   const button = document.getElementById("chat-send");
-  const history = [];
+  const clearButton = document.getElementById("chat-clear");
+  let history = [];
 
   function addMessage(who, text) {
     const p = document.createElement("p");
@@ -202,6 +203,39 @@ footer{
     messages.appendChild(p);
     messages.scrollTop = messages.scrollHeight;
     return p;
+  }
+
+  function saveHistory() {
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(history.slice(-10)));
+    } catch (error) {
+      console.warn("Could not save history:", error);
+    }
+  }
+
+  function loadHistory() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+      if (!Array.isArray(saved)) return;
+
+      history = saved.filter(item =>
+        item &&
+        ["user", "model"].includes(item.role) &&
+        Array.isArray(item.parts) &&
+        item.parts.some(part => typeof part?.text === "string")
+      ).slice(-10);
+
+      for (const item of history) {
+        const text = item.parts.map(part =>
+          typeof part?.text === "string" ? part.text : ""
+        ).join("");
+
+        if (text) addMessage(item.role === "user" ? "You" : "GPT Coin AI", text);
+      }
+    } catch (error) {
+      history = [];
+      localStorage.removeItem(storageKey);
+    }
   }
 
   async function sendMessage() {
@@ -226,10 +260,15 @@ footer{
       }
 
       loading.textContent = "GPT Coin AI: " + data.reply;
+
       history.push(
         { role: "user", parts: [{ text: message }] },
         { role: "model", parts: [{ text: data.reply }] }
       );
+
+      history = history.slice(-10);
+      saveHistory();
+
     } catch (error) {
       loading.textContent = "GPT Coin AI: Error: " + error.message;
     } finally {
@@ -237,6 +276,18 @@ footer{
       input.focus();
     }
   }
+
+  if (clearButton) {
+    clearButton.addEventListener("click", function () {
+      history = [];
+      localStorage.removeItem(storageKey);
+      messages.innerHTML = "";
+      addMessage("GPT Coin AI", "Hello! How can I help you?");
+      input.focus();
+    });
+  }
+
+  loadHistory();
 
   button.addEventListener("click", sendMessage);
   input.addEventListener("keydown", function (event) {
