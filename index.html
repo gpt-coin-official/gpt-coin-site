@@ -241,18 +241,120 @@ footer{
   .chat-compose { gap: 6px; }
   .chat-send { padding: 0 12px; }
   .chat-tools { flex-direction: column; }
- }</style>
+
+/* GPT Coin AI Navigation Menu */
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 5%;
+  background: #19132d;
+  border-bottom: 1px solid #493765;
+  position: relative;
+  z-index: 1000;
+}
+
+.brand img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.main-nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px;
+}
+
+.main-nav a:hover {
+  color: #f6c85f;
+}
+
+.menu-toggle {
+  display: none;
+  background: #6d28d9;
+  color: white;
+  border: none;
+  border-radius: 9px;
+  padding: 10px 14px;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+@media(max-width: 750px) {
+  .main-header {
+    flex-wrap: wrap;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .main-nav {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    padding: 15px;
+    margin-top: 12px;
+    background: #201a35;
+    border: 1px solid #493765;
+    border-radius: 12px;
+  }
+
+  .main-nav.active {
+    display: flex;
+  }
+
+  .main-nav a {
+    padding: 12px;
+    border-bottom: 1px solid #493765;
+  }
+}
+}</style>
+ 
+<script>
+const menuToggle = document.getElementById("menu-toggle");
+const mainNav = document.getElementById("main-nav");
+
+menuToggle.addEventListener("click", function () {
+  mainNav.classList.toggle("active");
+});
+</script>
+ 
 </head>
 <body>
 
-<header>
-<img src="gpt_logo_with_name.png" alt="GPT Logo" style="width:80px;height:80px;object-fit:contain;">
-<nav>
-<a href="#home">Home</a>
-<a href="#utility">Utility</a>
-<a href="#roadmap">Roadmap</a>
-</nav>
+
+<header class="main-header">
+  <a href="#home" class="brand">
+    <img src="gpt_logo_with_name.png" alt="GPT Logo">
+  </a>
+
+  <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open menu">
+    ☰
+  </button>
+
+  <nav class="main-nav" id="main-nav">
+    <a href="#home">Home</a>
+    <a href="#profile">My Profile</a>
+    <a href="#wallet">My Wallet</a>
+    <a href="#ai-chat">AI Chatbot</a>
+    <a href="#image-generator">AI Image Generator</a>
+    <a href="#ai-tools">All AI Tools</a>
+    <a href="#holder-benefits">Holder Benefits</a>
+    <a href="#community">Community</a>
+    <a href="#settings">Settings</a>
+  </nav>
 </header>
+ 
 
 <div class="hero" id="home">
 <h1>GPT COIN</h1>
