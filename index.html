@@ -351,7 +351,7 @@ footer{
 
     <div class="chat-compose">
       <input id="chat-input" class="chat-input" type="text"
-        placeholder="Ask GPT Coin AI something...">
+        placeholder="Ask a question or describe an image to create..."
       <button id="chat-send" class="chat-send" type="button">Send</button>
     </div>
 
@@ -444,7 +444,7 @@ footer{
     }
   }
 
-  async function sendMessage() {
+    async function sendMessage() {
     const message = input.value.trim();
     if (!message || button.disabled) return;
 
@@ -455,26 +455,86 @@ footer{
     button.textContent = "Sending...";
 
     try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message, history })
-      });
+      const isImageRequest =
+        /\b(generate|create|make|draw|design)\b.*\b(image|picture|photo|artwork|logo)\b/i.test(message) ||
+        /\b(image|picture|photo)\s+of\b/i.test(message);
 
-      const data = await response.json();
-      if (!response.ok || !data.reply) {
-        throw new Error(data.error || "AI request failed");
+      if (isImageRequest) {
+        const response = await fetch(endpoint + "generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: message })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.image) {
+          throw new Error(data.error || "Image generation failed");
+        }
+
+        typing.remove();
+
+        const bubble = document.createElement("div");
+        bubble.className = "chat-bubble ai";
+
+        const label = document.createElement("span");
+        label.className = "chat-label";
+        label.textContent = "GPT Coin AI";
+
+        const image = document.createElement("img");
+        image.src = data.image;
+        image.alt = message;
+        image.style.width = "100%";
+        image.style.maxWidth = "350px";
+        image.style.borderRadius = "12px";
+        image.style.display = "block";
+        image.style.marginTop = "10px";
+
+        const download = document.createElement("a");
+        download.href = data.image;
+        download.download = "gpt-coin-ai-image.png";
+        download.textContent = "Download Image";
+        download.style.display = "block";
+        download.style.marginTop = "10px";
+
+        bubble.appendChild(label);
+        bubble.appendChild(image);
+        bubble.appendChild(download);
+        messages.appendChild(bubble);
+        messages.scrollTop = messages.scrollHeight;
+
+        const reply = "Your image has been generated!";
+        history.push(
+          { role: "user", parts: [{ text: message }] },
+          { role: "model", parts: [{ text: reply }] }
+        );
+        history = history.slice(-10);
+        saveHistory();
+
+      } else {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message, history })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.reply) {
+          throw new Error(data.error || "AI request failed");
+        }
+
+        typing.remove();
+        addMessage("GPT Coin AI", data.reply);
+
+        history.push(
+          { role: "user", parts: [{ text: message }] },
+          { role: "model", parts: [{ text: data.reply }] }
+        );
+        history = history.slice(-10);
+        saveHistory();
       }
 
-      typing.remove();
-      addMessage("GPT Coin AI", data.reply);
-
-      history.push(
-        { role: "user", parts: [{ text: message }] },
-        { role: "model", parts: [{ text: data.reply }] }
-      );
-      history = history.slice(-10);
-      saveHistory();
     } catch (error) {
       typing.remove();
       addMessage("GPT Coin AI", "Sorry, something went wrong: " + error.message);
@@ -483,7 +543,7 @@ footer{
       button.textContent = "Send";
       input.focus();
     }
-  }
+    }
 
   clearButton.addEventListener("click", function () {
     history = [];
