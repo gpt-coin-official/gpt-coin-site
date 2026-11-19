@@ -905,5 +905,39 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 })();
 </script>
+ 
+<script>
+(function () {
+  const button = document.getElementById("connect-wallet-btn");
+  const status = document.getElementById("wallet-status");
+  const address = document.getElementById("wallet-address");
+
+  if (!button || !status || !address) return;
+
+  button.addEventListener("click", async function () {
+    try {
+      const provider = window.phantom?.solana;
+
+      if (!provider || !provider.isPhantom) {
+        status.textContent =
+          "Phantom not detected. Open this website in Phantom browser.";
+        return;
+      }
+
+      status.textContent = "Connecting wallet...";
+      const response = await provider.connect();
+
+      address.textContent =
+        "Wallet Address: " + response.publicKey.toString();
+
+      status.textContent = "Wallet connected successfully!";
+      button.textContent = "Wallet Connected";
+    } catch (error) {
+      status.textContent = "Wallet connection cancelled or failed.";
+    }
+  });
+})();
+</script>
+ 
 </body>
 </html>
