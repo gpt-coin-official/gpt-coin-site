@@ -478,10 +478,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
   <div class="cards">
     <div class="card">
-      <h3>Account Settings</h3>
-      <p>Profile and account preferences.</p>
-      <span class="phase">Coming Soon</span>
-    </div>
+      
+<div class="card">
+  <h3>Account Settings</h3>
+  <p>Update your profile details.</p>
+
+  <form id="account-form">
+    <label for="account-username">Username</label>
+    <input
+      type="text"
+      id="account-username"
+      placeholder="Enter your username"
+      required
+    >
+
+    <label for="account-email">Email</label>
+    <input
+      type="email"
+      id="account-email"
+      placeholder="Enter your email"
+      required
+    >
+
+    <button type="submit">Save Changes</button>
+    <p id="account-message"></p>
+  </form>
+</div>
+     
 
     <div class="card">
       <h3>Privacy Settings</h3>
