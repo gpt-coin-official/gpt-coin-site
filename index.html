@@ -31,23 +31,55 @@ nav a{
  font-size:14px;
 }
 nav a:hover{color:#f6c85f}
-.hero{
- text-align:center;
- padding:100px 20px;
- background:linear-gradient(140deg,#32175c,#111020);
+
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  padding: 110px 20px;
+  min-height: 430px;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(139, 92, 246, 0.35), transparent 42%),
+    linear-gradient(135deg, #241044, #100d20 65%, #19132d);
+  border-bottom: 1px solid rgba(246, 200, 95, 0.2);
 }
-.hero h1{font-size:52px;color:#f6c85f;margin:10px}
-.hero p{color:#ddd5eb;max-width:650px;margin:12px auto}
-.btn{
- display:inline-block;
- background:#f6c85f;
- color:#171020;
- padding:13px 26px;
- border-radius:30px;
- text-decoration:none;
- font-weight:bold;
- margin-top:18px;
+
+.hero h1 {
+  font-size: clamp(42px, 7vw, 68px);
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #f6c85f;
+  margin: 10px 0;
+  text-shadow: 0 0 28px rgba(246, 200, 95, 0.25);
 }
+
+.hero p {
+  color: #ddd5eb;
+  max-width: 650px;
+  margin: 14px auto;
+  font-size: 17px;
+}
+
+.btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #ffe08a, #e9ad36);
+  color: #171020;
+  padding: 14px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 22px;
+  box-shadow: 0 8px 25px rgba(246, 200, 95, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(246, 200, 95, 0.3);
+}
+ 
+ 
 section{padding:65px 8%;text-align:center}
 h2{color:#f6c85f;font-size:32px}
 .cards{
