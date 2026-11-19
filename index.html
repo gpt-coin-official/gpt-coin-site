@@ -823,4 +823,35 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
  
 </body>
+
+<script>
+(function () {
+  const form = document.getElementById("account-form");
+  const username = document.getElementById("account-username");
+  const email = document.getElementById("account-email");
+  const message = document.getElementById("account-message");
+
+  if (!form) return;
+
+  try {
+    username.value = localStorage.getItem("gptCoinUsername") || "";
+    email.value = localStorage.getItem("gptCoinEmail") || "";
+  } catch (error) {}
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    try {
+      localStorage.setItem("gptCoinUsername", username.value.trim());
+      localStorage.setItem("gptCoinEmail", email.value.trim());
+
+      message.textContent = "Your account details have been saved!";
+      message.style.color = "#f6c85f";
+    } catch (error) {
+      message.textContent = "Could not save. Please try again.";
+      message.style.color = "#ff7777";
+    }
+  });
+})();
+</script>
 </html>
