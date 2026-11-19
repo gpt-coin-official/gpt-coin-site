@@ -509,11 +509,17 @@ document.addEventListener("DOMContentLoaded", function () {
   </p>
 </section>
  
+
 <section id="profile" data-screen="profile">
   <h2>My Profile</h2>
-    <div class="cards">
+  <p class="note">
+    Manage your personal details and customize your GPT Coin experience.
+  </p>
+
+  <div class="cards">
     <div class="card">
-      <h3>My Profile Details</h3>
+      <h3>👤 Profile Information</h3>
+      <p class="note">Update your username and email address.</p>
 
       <form id="profile-form">
         <label for="profile-username">Username</label>
@@ -524,7 +530,7 @@ document.addEventListener("DOMContentLoaded", function () {
           required
         >
 
-        <label for="profile-email">Email</label>
+        <label for="profile-email">Email Address</label>
         <input
           type="email"
           id="profile-email"
@@ -536,8 +542,14 @@ document.addEventListener("DOMContentLoaded", function () {
         <p id="profile-message"></p>
       </form>
     </div>
-    </div>
+  </div>
+
+  <p class="note">
+    Your profile details are saved in this browser on this device.
+    This is not an account login system yet.
+  </p>
 </section>
+ 
 
  
 <section id="wallet" data-screen="wallet">
