@@ -1012,6 +1012,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
  
 
+
 <script>
 (function () {
   const form = document.getElementById("account-form");
@@ -1019,11 +1020,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const email = document.getElementById("account-email");
   const message = document.getElementById("account-message");
 
+  const viewUsername = document.getElementById("account-view-username");
+  const viewEmail = document.getElementById("account-view-email");
+
+  function updateAccountView() {
+    if (viewUsername) {
+      viewUsername.textContent =
+        localStorage.getItem("gptCoinUsername") || "Not set";
+    }
+
+    if (viewEmail) {
+      viewEmail.textContent =
+        localStorage.getItem("gptCoinEmail") || "Not set";
+    }
+  }
+
   if (!form) return;
 
   try {
     username.value = localStorage.getItem("gptCoinUsername") || "";
     email.value = localStorage.getItem("gptCoinEmail") || "";
+    updateAccountView();
   } catch (error) {}
 
   form.addEventListener("submit", function (event) {
@@ -1033,7 +1050,9 @@ document.addEventListener("DOMContentLoaded", function () {
       localStorage.setItem("gptCoinUsername", username.value.trim());
       localStorage.setItem("gptCoinEmail", email.value.trim());
 
-      message.textContent = "Your account details have been saved!";
+      updateAccountView();
+
+      message.textContent = "Account details saved successfully!";
       message.style.color = "#f6c85f";
     } catch (error) {
       message.textContent = "Could not save. Please try again.";
@@ -1042,6 +1061,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 })();
 </script>
+ 
  
 <script>
 (function () {
