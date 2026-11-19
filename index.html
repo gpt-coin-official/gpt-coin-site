@@ -873,5 +873,36 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 })();
 </script>
+ 
+<script>
+(function () {
+  const form = document.getElementById("profile-form");
+  const username = document.getElementById("profile-username");
+  const email = document.getElementById("profile-email");
+  const message = document.getElementById("profile-message");
+
+  if (!form) return;
+
+  try {
+    username.value = localStorage.getItem("gptCoinProfileUsername") || "";
+    email.value = localStorage.getItem("gptCoinProfileEmail") || "";
+  } catch (error) {}
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    try {
+      localStorage.setItem("gptCoinProfileUsername", username.value.trim());
+      localStorage.setItem("gptCoinProfileEmail", email.value.trim());
+
+      message.textContent = "Profile saved successfully!";
+      message.style.color = "#f6c85f";
+    } catch (error) {
+      message.textContent = "Could not save profile. Please try again.";
+      message.style.color = "#ff7777";
+    }
+  });
+})();
+</script>
 </body>
 </html>
