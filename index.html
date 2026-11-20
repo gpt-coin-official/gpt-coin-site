@@ -44,7 +44,38 @@ nav a:hover{color:#f6c85f}
     linear-gradient(135deg, #241044, #100d20 65%, #19132d);
  border-bottom: none;
 }
+.hero-logo-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(150px, 30vw, 240px);
+  transform: translate(-50%, -50%);
+  opacity: 0.13;
+  z-index: 0;
+  pointer-events: none;
+}
 
+.hero-logo-bg img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 0 25px #8b5cf6);
+  animation: heroLogoRotate 35s linear infinite;
+}
+
+@keyframes heroLogoRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hero > :not(.hero-logo-bg) {
+  position: relative;
+  z-index: 1;
+}
 .hero h1 {
   font-size: clamp(42px, 7vw, 68px);
   font-weight: 900;
