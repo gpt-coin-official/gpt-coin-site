@@ -817,46 +817,46 @@ body:has(#ai-chat:not(.screen-active)) footer {
 </style>
  
 
-<script>
 document.addEventListener("DOMContentLoaded", function () {
   const menuToggle = document.getElementById("menu-toggle");
   const mainNav = document.getElementById("main-nav");
 
+  // Menu open / close
   menuToggle.addEventListener("click", function () {
     mainNav.classList.toggle("active");
-  });  
-  const screenLinks = document.querySelectorAll(
-    ".brand, a[href^='#']"
-  );
+  });
 
-  const screens = document.querySelectorAll("[data-screen]");
+  // All page navigation links
+  document.addEventListener("click", function (event) {
+    const link = event.target.closest(
+      '.main-nav a[href^="#"], .brand[href^="#"]'
+    );
 
-  screenLinks.forEach(function (link) {
-    link.addEventListener("click", function (event) {
-      const screenName = link.getAttribute("href").substring(1);
+    if (!link) return;
 
-      const matchingScreens = document.querySelectorAll(
-        '[data-screen="' + screenName + '"]'
-      );
+    const screenName = link.getAttribute("href").substring(1);
+    const screens = document.querySelectorAll("[data-screen]");
+    const matchingScreens = document.querySelectorAll(
+      '[data-screen="' + screenName + '"]'
+    );
 
-      if (matchingScreens.length === 0) return;
+    if (matchingScreens.length === 0) return;
 
-      event.preventDefault();
+    event.preventDefault();
 
-      screens.forEach(function (screen) {
-        screen.classList.remove("screen-active");
-      });
-
-      matchingScreens.forEach(function (screen) {
-        screen.classList.add("screen-active");
-      });
-
-      mainNav.classList.remove("active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    screens.forEach(function (screen) {
+      screen.classList.remove("screen-active");
     });
+
+    matchingScreens.forEach(function (screen) {
+      screen.classList.add("screen-active");
+    });
+
+    mainNav.classList.remove("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 });
-</script>
+ 
  
  
 </head>
