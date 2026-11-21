@@ -639,17 +639,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
 <section id="account" data-screen="account">
   <h2>Account</h2>
   <p class="note">Your GPT Coin account information.</p>
 
-  <div style="display:flex; justify-content:center; margin-top:22px;">
-    <div class="card" style="width:100%; max-width:420px; padding:22px;">
-      <div style="text-align:center; margin-bottom:20px;">
-        <div style="width:76px; height:76px; margin:auto; border-radius:50%; background:#30234b; display:flex; align-items:center; justify-content:center;">
-          <span style="font-size:38px;">👤</span>
+  <div style="display:flex; justify-content:center; margin:28px 15px;">
+    <div style="
+      width:100%;
+      max-width:420px;
+      padding:28px 22px;
+      box-sizing:border-box;
+      border-radius:22px;
+      background:linear-gradient(145deg,#21143d,#120d24);
+      box-shadow:0 10px 35px rgba(130,65,255,0.22);
+    ">
+
+      <div style="text-align:center; margin-bottom:28px;">
+        <div style="
+          width:82px;
+          height:82px;
+          margin:auto;
+          border-radius:50%;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          background:linear-gradient(145deg,#7040b8,#30204e);
+          box-shadow:0 0 25px rgba(160,90,255,0.35);
+        ">
+          <span style="font-size:40px;">👤</span>
         </div>
-        <h3>Account Profile</h3>
+        <h3 style="color:#f6c85f; margin:16px 0 0;">
+          Account Profile
+        </h3>
       </div>
 
       <p class="note">Username</p>
@@ -660,9 +682,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       <p class="note">Login Method</p>
       <p id="account-view-provider">Not connected</p>
+
     </div>
   </div>
 </section>
+ 
  
  
  
