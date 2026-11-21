@@ -669,6 +669,150 @@ footer{
 .chat-bubble.ai span:not(.chat-label) {
   text-align: left !important;
 }
+ 
+/* GPT COIN - LIGHT LAVENDER WEBSITE THEME */
+/* AI CHAT ACTIVE unnapudu ee theme apply avvadu */
+
+body:has(#ai-chat:not(.screen-active)) {
+  background: #faf8ff !important;
+  color: #28105c !important;
+  font-family: Arial, sans-serif;
+}
+
+/* Top and bottom purple wave background */
+body:has(#ai-chat:not(.screen-active))::before,
+body:has(#ai-chat:not(.screen-active))::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body:has(#ai-chat:not(.screen-active))::before {
+  top: 0;
+  height: 230px;
+  background:
+    radial-gradient(ellipse at 15% 0%, #c8a5ff 0%, transparent 55%),
+    linear-gradient(160deg, #eee4ff, #faf8ff 75%);
+  clip-path: polygon(0 0, 100% 0, 100% 65%, 75% 90%, 45% 75%, 20% 100%, 0 70%);
+}
+
+body:has(#ai-chat:not(.screen-active))::after {
+  bottom: 0;
+  height: 170px;
+  background: linear-gradient(160deg, #d7baff, #7628e8);
+  clip-path: polygon(0 45%, 25% 75%, 55% 65%, 80% 90%, 100% 55%, 100% 100%, 0 100%);
+}
+
+body:has(#ai-chat:not(.screen-active)) > header,
+body:has(#ai-chat:not(.screen-active)) > div,
+body:has(#ai-chat:not(.screen-active)) > section,
+body:has(#ai-chat:not(.screen-active)) > footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+body:has(#ai-chat:not(.screen-active)) .main-header {
+  background: rgba(250, 248, 255, 0.92) !important;
+  border-bottom: 1px solid #e7dcff;
+  backdrop-filter: blur(12px);
+}
+
+body:has(#ai-chat:not(.screen-active)) .brand,
+body:has(#ai-chat:not(.screen-active)) .main-nav a {
+  color: #4b16a8 !important;
+}
+
+body:has(#ai-chat:not(.screen-active)) .menu-toggle {
+  background: #7628e8 !important;
+  color: white !important;
+  border-radius: 16px;
+}
+
+/* Home hero */
+body:has(#ai-chat:not(.screen-active)) .hero {
+  background: transparent !important;
+  color: #28105c !important;
+  border: none !important;
+}
+
+body:has(#ai-chat:not(.screen-active)) .hero h1 {
+  color: #5420b5 !important;
+  text-shadow: 0 5px 25px rgba(118, 40, 232, 0.15);
+}
+
+body:has(#ai-chat:not(.screen-active)) .hero p {
+  color: #51416e !important;
+}
+
+/* Page headings and text */
+body:has(#ai-chat:not(.screen-active)) section:not(#ai-chat) {
+  background: transparent !important;
+  color: #34205e !important;
+}
+
+body:has(#ai-chat:not(.screen-active)) section:not(#ai-chat) h2 {
+  color: #5420b5 !important;
+}
+
+body:has(#ai-chat:not(.screen-active)) .note {
+  color: #786991 !important;
+}
+
+/* Cards */
+body:has(#ai-chat:not(.screen-active)) .card,
+body:has(#ai-chat:not(.screen-active)) #account > div > div {
+  background: rgba(255, 255, 255, 0.82) !important;
+  color: #34205e !important;
+  border: 1px solid #e2d4ff !important;
+  border-radius: 24px !important;
+  box-shadow: 0 10px 30px rgba(105, 55, 180, 0.09) !important;
+}
+
+body:has(#ai-chat:not(.screen-active)) .card h3,
+body:has(#ai-chat:not(.screen-active)) #account h3 {
+  color: #5420b5 !important;
+}
+
+body:has(#ai-chat:not(.screen-active)) .card p,
+body:has(#ai-chat:not(.screen-active)) #account p {
+  color: #51416e !important;
+}
+
+/* Buttons */
+body:has(#ai-chat:not(.screen-active)) .btn,
+body:has(#ai-chat:not(.screen-active)) button:not(.menu-toggle) {
+  background: linear-gradient(135deg, #8b45f0, #5420b5) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 28px !important;
+  box-shadow: 0 7px 20px rgba(118, 40, 232, 0.18);
+}
+
+/* Inputs */
+body:has(#ai-chat:not(.screen-active)) input,
+body:has(#ai-chat:not(.screen-active)) textarea {
+  background: #fff !important;
+  color: #28105c !important;
+  border: 1px solid #d9c8ff !important;
+  border-radius: 14px !important;
+}
+
+/* Phase labels */
+body:has(#ai-chat:not(.screen-active)) .phase {
+  color: #6425c5 !important;
+  border-color: #c7a9ff !important;
+  background: #f5efff;
+}
+
+/* Footer */
+body:has(#ai-chat:not(.screen-active)) footer {
+  background: transparent !important;
+  color: #51416e !important;
+}
 </style>
  
 
