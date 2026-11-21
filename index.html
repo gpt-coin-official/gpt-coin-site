@@ -1073,7 +1073,15 @@ document.addEventListener("DOMContentLoaded", function () {
   
   let history = [];
 
- 
+ const clearButton = document.getElementById("chat-clear");
+
+clearButton.addEventListener("click", function () {
+  history = [];
+  localStorage.removeItem(storageKey);
+  messages.innerHTML = "";
+  input.value = "";
+  input.focus();
+});
   
  
   function addMessage(who, text) {
