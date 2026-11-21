@@ -400,18 +400,8 @@ footer{
   }
 }
  
-/* GPT Coin Centered Mobile Menu */
 
-.menu-left,
-.menu-divider {
-  display: none;
-}
-
-.menu-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
+/* GPT Coin Premium Mobile Menu */
 
 @media (max-width: 750px) {
   .menu-toggle {
@@ -425,20 +415,17 @@ footer{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 440px;
-    max-height: 82vh;
+    width: 82%;
+    max-width: 320px;
+    max-height: 75vh;
     overflow-y: auto;
     box-sizing: border-box;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 14px;
-    padding: 22px 15px;
+    padding: 16px;
     margin: 0;
-    background: rgba(25, 13, 48, 0.96);
+    background: rgba(25, 13, 48, 0.97);
     border: none;
-    border-radius: 22px;
-    box-shadow: 0 12px 45px rgba(100, 35, 220, 0.28);
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(110, 45, 220, 0.30);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     z-index: 1002;
@@ -446,94 +433,48 @@ footer{
 
   .main-nav.active {
     display: flex;
-  }
-
-  .menu-left {
-    display: flex;
-    flex: 0 0 36%;
-    flex-direction: column;
-    align-items: center;
-    gap: 28px;
-    min-width: 0;
-  }
-
-  .menu-brand {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    color: #f6c85f;
-    font-size: 13px;
-    font-weight: 800;
-    text-align: center;
-  }
-
-  .menu-brand img {
-    width: 58px;
-    height: 58px;
-    object-fit: contain;
-  }
-
-  .menu-left-links {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-    width: 100%;
-  }
-
-  .menu-left-links a,
-  .menu-left-links span {
-    color: #e9ddff;
-    font-size: 13px;
-    text-align: center;
-    text-decoration: none;
-    line-height: 1.4;
-  }
-
-  .menu-divider {
-    display: block;
-    width: 1px;
-    flex: 0 0 1px;
-    background: linear-gradient(
-      to bottom,
-      transparent,
-      #9b5cff,
-      #d8b4fe,
-      #9b5cff,
-      transparent
-    );
+    animation: menuPop 0.22s ease-out;
   }
 
   .menu-right {
     display: flex;
-    flex: 1;
     flex-direction: column;
     align-items: stretch;
-    justify-content: space-around;
-    gap: 10px;
-    min-width: 0;
+    justify-content: flex-start;
+    gap: 4px;
+    width: 100%;
   }
 
   .menu-right a {
     display: block;
-    padding: 10px 5px;
+    padding: 11px 14px;
     color: #ffffff;
     font-size: 14px;
     line-height: 1.4;
     text-decoration: none;
     border: none;
     border-radius: 10px;
-    transition: color 0.25s ease,
-                background 0.25s ease;
+    transition: background 0.2s ease, color 0.2s ease;
   }
 
   .menu-right a:hover,
-  .menu-left-links a:hover {
+  .menu-right a:active {
     color: #f6c85f;
-    background: rgba(139, 92, 246, 0.13);
+    background: rgba(139, 92, 246, 0.16);
   }
 }
+
+@keyframes menuPop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -47%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+ 
  
 [data-screen] {
   display: none;
