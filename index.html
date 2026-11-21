@@ -587,6 +587,48 @@ footer{
 [data-screen].screen-active {
   display: block;
 }
+ 
+/* Clean ChatGPT-style message design */
+
+.chat-messages {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 12px 4px !important;
+}
+
+.chat-bubble.ai {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 12px 4px !important;
+  margin: 14px 0 22px !important;
+  max-width: 95% !important;
+  color: #29105d !important;
+}
+
+.chat-bubble.user {
+  max-width: 80% !important;
+  margin: 12px 0 18px auto !important;
+  padding: 15px 20px !important;
+  border-radius: 22px !important;
+  background: linear-gradient(135deg, #7628e8, #4b16b5) !important;
+  color: white !important;
+}
+
+.chat-label {
+  display: none !important;
+}
+
+.chat-tools {
+  justify-content: flex-end !important;
+  margin-top: 10px !important;
+}
+
+.chat-clear {
+  cursor: pointer;
+}
 </style>
  
 
