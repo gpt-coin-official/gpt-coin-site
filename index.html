@@ -1066,17 +1066,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const messages = document.getElementById("chat-messages");
   const input = document.getElementById("chat-input");
   const button = document.getElementById("chat-send");
-  const clearButton = document.getElementById("chat-clear");
+  
   let history = [];
 
  
-  document.querySelectorAll(".chat-action").forEach(function (action) {
-    action.addEventListener("click", function () {
-      input.value = action.getAttribute("data-prompt");
-      input.focus();
-      input.setSelectionRange(input.value.length, input.value.length);
-    });
-  });
+  
  
   function addMessage(who, text) {
     const bubble = document.createElement("div");
