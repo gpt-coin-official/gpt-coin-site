@@ -1276,8 +1276,8 @@ body:has(#ai-chat:not(.screen-active)) footer {
       <button id="connect-wallet-btn">
         Connect Phantom
       </button>
-      <p id="wallet-status">Wallet not connected</p>
-      <p id="wallet-address"></p>
+      <p id="wallet-status" hidden></p>
+<p id="wallet-address" hidden></p>
     </div>
 
     
@@ -1844,10 +1844,10 @@ clearButton.addEventListener("click", function () {
           "Phantom not detected. Open this website in Phantom browser.";
         return;
       }
-
+status.hidden = false;
       status.textContent = "Connecting wallet...";
       const response = await provider.connect();
-
+address.hidden = false;
       address.textContent =
         "Wallet Address: " + response.publicKey.toString();
 
