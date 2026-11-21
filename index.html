@@ -1242,15 +1242,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     }
 
-  clearButton.addEventListener("click", function () {
-    history = [];
-    try {
-      localStorage.removeItem(storageKey);
-    } catch (error) {}
-    messages.innerHTML = "";
-    addMessage("GPT Coin AI", "Hello! How can I help you?");
-    input.focus();
-  });
+  
 
   loadHistory();
   button.addEventListener("click", sendMessage);
