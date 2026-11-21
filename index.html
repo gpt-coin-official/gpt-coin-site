@@ -897,6 +897,154 @@ body:has(#ai-chat:not(.screen-active)) footer {
   margin-top: 22px;
   font-size: 13px;
 }
+ 
+/* MY WALLET FINAL DESIGN */
+
+#wallet {
+  min-height: 100vh;
+  padding: 35px 6% !important;
+  text-align: left !important;
+  background: #faf8ff;
+}
+
+#wallet h2 {
+  color: #5420b5 !important;
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 22px;
+}
+
+#wallet .wallet-summary {
+  background: linear-gradient(135deg, #21123d, #5420a5);
+  color: white;
+  padding: 25px;
+  border-radius: 20px;
+  margin-bottom: 22px;
+  box-shadow: 0 8px 24px rgba(84,32,181,.15);
+}
+
+#wallet .wallet-summary h3 {
+  color: white;
+  font-size: 32px;
+  margin: 0 0 8px;
+}
+
+#wallet .wallet-summary p {
+  color: #d7c5ff;
+  font-size: 13px;
+  margin: 0;
+}
+
+#wallet .wallet-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+#wallet .wallet-option {
+  background: white;
+  border: 1px solid #e7dcff;
+  border-radius: 17px;
+  padding: 18px 14px;
+  box-shadow: 0 5px 18px rgba(84,32,181,.06);
+  min-width: 0;
+}
+
+#wallet .wallet-option h3 {
+  color: #5420b5;
+  font-size: 17px;
+  margin: 0 0 8px;
+}
+
+#wallet .wallet-option p {
+  color: #766b8c;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+#wallet #connect-wallet-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #7138dc, #a34df5);
+  color: white;
+  border: none;
+  border-radius: 11px;
+  padding: 12px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+#wallet #wallet-status,
+#wallet #wallet-address {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+#wallet .wallet-coming {
+  display: inline-block;
+  background: #f2eaff;
+  color: #5420b5;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+#wallet .holdings-title {
+  color: #5420b5;
+  font-size: 21px;
+  margin: 25px 0 15px;
+}
+
+#wallet .holdings-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  border: 1px solid #e7dcff;
+  border-radius: 15px;
+}
+
+#wallet .holdings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+#wallet .holdings-table th {
+  background: #f3edff;
+  color: #5420b5;
+  text-align: left;
+  padding: 14px 10px;
+}
+
+#wallet .holdings-table td {
+  color: #44365c;
+  padding: 15px 10px;
+  border-top: 1px solid #eee7fa;
+}
+
+#wallet .wallet-note {
+  color: #766b8c;
+  font-size: 12px;
+  margin-top: 22px;
+}
+
+@media (max-width: 480px) {
+  #wallet {
+    padding: 28px 5% !important;
+  }
+
+  #wallet .wallet-options {
+    gap: 10px;
+  }
+
+  #wallet .wallet-option {
+    padding: 14px 10px;
+  }
+ }
 </style>
  
 
@@ -1111,37 +1259,70 @@ body:has(#ai-chat:not(.screen-active)) footer {
 </section>
  
  
- 
- 
-
- 
 <section id="wallet" data-screen="wallet">
+
   <h2>My Wallet</h2>
-  <p class="note">
-    Connect your Solana wallet to explore future GPT Coin features.
-  </p>
 
-  <div class="cards">
-    <div class="card">
-      <h3>👛 Connect Phantom Wallet</h3>
-      <p>
-        Connect your Phantom wallet to view your public wallet
-        address and explore the GPT Coin ecosystem.
-      </p>
+  <div class="wallet-summary">
+    <h3>$0.00</h3>
+    <p>Total portfolio value · Live valuation</p>
+  </div>
 
+  <div class="wallet-options">
+
+    <div class="wallet-option">
+      <h3>👛 Phantom</h3>
+      <p>Solana wallet</p>
       <button id="connect-wallet-btn">
-        Connect Phantom Wallet
+        Connect Phantom
       </button>
-
       <p id="wallet-status">Wallet not connected</p>
       <p id="wallet-address"></p>
     </div>
+
+    <div class="wallet-option">
+      <h3>🚀 Pump.fun</h3>
+      <p>Pump.fun tokens</p>
+      <span class="wallet-coming">Holdings</span>
+    </div>
+
   </div>
 
-  <p class="note">
+  <h3 class="holdings-title">My Holdings</h3>
+
+  <div class="holdings-table-wrap">
+    <table class="holdings-table">
+      <thead>
+        <tr>
+          <th>Coin</th>
+          <th>Quantity</th>
+          <th>Live price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>SOL</td>
+          <td>Wallet balance</td>
+          <td>Live</td>
+        </tr>
+        <tr>
+          <td>GPT Coin</td>
+          <td>Your balance</td>
+          <td>Live</td>
+        </tr>
+        <tr>
+          <td>Other tokens</td>
+          <td>Your balance</td>
+          <td>Live</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="wallet-note">
     Never share your wallet recovery phrase or private keys.
-    Only connect your wallet through trusted websites.
   </p>
+
 </section>
  
 
