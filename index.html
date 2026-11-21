@@ -1900,43 +1900,54 @@ address.hidden = false;
   });
 })();
 </script>
- <script>
+ 
+<script>
 (function () {
   const button = document.getElementById("pumpfun-view-btn");
-  const panel = document.getElementById("pumpfun-panel");
-  const status = document.getElementById("pumpfun-status");
+  const screen = document.getElementById("pumpfun-screen");
+  const backButton = document.getElementById("pumpfun-back-btn");
+  const status = document.getElementById("pumpfun-screen-status");
 
-  if (!button || !panel || !status) return;
+  if (!button || !screen || !backButton || !status) return;
+
+  function showScreen(screenName) {
+    document.querySelectorAll("[data-screen]").forEach(function (item) {
+      item.classList.remove("screen-active");
+    });
+
+    document.getElementById(screenName).classList.add("screen-active");
+    window.scrollTo(0, 0);
+  }
 
   button.addEventListener("click", async function () {
+    showScreen("pumpfun-screen");
+
+    status.hidden = false;
+    status.textContent = "Opening Pump.fun Holdings...";
+
     try {
       const provider = window.phantom?.solana;
 
       if (!provider || !provider.isPhantom) {
-        panel.hidden = false;
-        status.hidden = false;
         status.textContent =
-          "Please open this website in Phantom browser.";
+          "Phantom not detected. Open this website in Phantom browser to connect your wallet.";
         return;
       }
 
-      panel.hidden = false;
-      status.hidden = false;
-      status.textContent = "Connecting Phantom wallet...";
-
-      const response = await provider.connect();
+      await provider.connect();
 
       status.textContent =
         "Wallet connected! Pump.fun holdings will appear here after data integration.";
-
-      button.textContent = "Pump.fun Connected";
     } catch (error) {
-      panel.hidden = false;
-      status.hidden = false;
       status.textContent = "Wallet connection cancelled or failed.";
     }
   });
+
+  backButton.addEventListener("click", function () {
+    showScreen("wallet");
+  });
 })();
- </script>
+</script>
+ 
 </body>
 </html>
