@@ -782,6 +782,7 @@ body:has(#ai-chat:not(.screen-active)) footer {
 </style>
  
 
+
 <script>
 (function () {
   function startNavigation() {
@@ -790,23 +791,24 @@ body:has(#ai-chat:not(.screen-active)) footer {
 
     if (!menuToggle || !mainNav) return;
 
-    menuToggle.addEventListener("click", function () {
+    menuToggle.addEventListener("click", function (event) {
+      event.stopPropagation();
       mainNav.classList.toggle("active");
     });
 
     document.addEventListener("click", function (event) {
-      const link = event.target.closest(
-        '.main-nav a[href^="#"], .brand[href^="#"]'
-      );
+      const target = event.target;
+      if (!(target instanceof Element)) return;
 
+      const link = target.closest('a[href^="#"]');
       if (!link) return;
 
-      const screenName = link.getAttribute("href").substring(1);
+      const screenName = link.getAttribute("href").slice(1);
       const screens = document.querySelectorAll(
         '[data-screen="' + screenName + '"]'
       );
 
-      if (screens.length === 0) return;
+      if (!screens.length) return;
 
       event.preventDefault();
 
@@ -820,7 +822,7 @@ body:has(#ai-chat:not(.screen-active)) footer {
 
       mainNav.classList.remove("active");
       window.scrollTo(0, 0);
-    }, true);
+    });
   }
 
   if (document.readyState === "loading") {
