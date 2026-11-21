@@ -816,29 +816,32 @@ body:has(#ai-chat:not(.screen-active)) footer {
 }
 </style>
  
+
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const menuToggle = document.getElementById("menu-toggle");
-  const mainNav = document.getElementById("main-nav");
+(function () {
+  function startNavigation() {
+    const menuToggle = document.getElementById("menu-toggle");
+    const mainNav = document.getElementById("main-nav");
 
-  // Menu open / close
-  menuToggle.addEventListener("click", function () {
-    mainNav.classList.toggle("active");
-  });
+    if (!menuToggle || !mainNav) return;
 
-  // Navigate when a menu link or the logo is tapped
-  const navigationLinks = document.querySelectorAll(
-    '.main-nav a[href^="#"], .brand[href^="#"]'
-  );
+    menuToggle.addEventListener("click", function () {
+      mainNav.classList.toggle("active");
+    });
 
-  navigationLinks.forEach(function (link) {
-    link.addEventListener("click", function (event) {
-      const screenName = link.getAttribute("href").slice(1);
-      const matchingScreens = document.querySelectorAll(
+    document.addEventListener("click", function (event) {
+      const link = event.target.closest(
+        '.main-nav a[href^="#"], .brand[href^="#"]'
+      );
+
+      if (!link) return;
+
+      const screenName = link.getAttribute("href").substring(1);
+      const screens = document.querySelectorAll(
         '[data-screen="' + screenName + '"]'
       );
 
-      if (matchingScreens.length === 0) return;
+      if (screens.length === 0) return;
 
       event.preventDefault();
 
@@ -846,17 +849,21 @@ document.addEventListener("DOMContentLoaded", function () {
         screen.classList.remove("screen-active");
       });
 
-      matchingScreens.forEach(function (screen) {
+      screens.forEach(function (screen) {
         screen.classList.add("screen-active");
       });
 
       mainNav.classList.remove("active");
       window.scrollTo(0, 0);
-    });
-  });
-});
- 
- 
+    }, true);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startNavigation);
+  } else {
+    startNavigation();
+  }
+})();
 </script>
 </head>
 <body>
