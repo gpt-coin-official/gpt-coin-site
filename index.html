@@ -1840,6 +1840,7 @@ clearButton.addEventListener("click", function () {
       const provider = window.phantom?.solana;
 
       if (!provider || !provider.isPhantom) {
+        status.hidden = false;
         status.textContent =
           "Phantom not detected. Open this website in Phantom browser.";
         return;
