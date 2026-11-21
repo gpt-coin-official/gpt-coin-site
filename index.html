@@ -1866,6 +1866,43 @@ address.hidden = false;
   });
 })();
 </script>
- 
+ <script>
+(function () {
+  const button = document.getElementById("pumpfun-view-btn");
+  const panel = document.getElementById("pumpfun-panel");
+  const status = document.getElementById("pumpfun-status");
+
+  if (!button || !panel || !status) return;
+
+  button.addEventListener("click", async function () {
+    try {
+      const provider = window.phantom?.solana;
+
+      if (!provider || !provider.isPhantom) {
+        panel.hidden = false;
+        status.hidden = false;
+        status.textContent =
+          "Please open this website in Phantom browser.";
+        return;
+      }
+
+      panel.hidden = false;
+      status.hidden = false;
+      status.textContent = "Connecting Phantom wallet...";
+
+      const response = await provider.connect();
+
+      status.textContent =
+        "Wallet connected! Pump.fun holdings will appear here after data integration.";
+
+      button.textContent = "Pump.fun Connected";
+    } catch (error) {
+      panel.hidden = false;
+      status.hidden = false;
+      status.textContent = "Wallet connection cancelled or failed.";
+    }
+  });
+})();
+ </script>
 </body>
 </html>
