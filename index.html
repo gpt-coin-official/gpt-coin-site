@@ -188,34 +188,89 @@ footer{
   font-size: 12px;
 }
 
+
+/* GPT Coin AI - Full Screen Premium Design */
+
+.chat-shell {
+  width: 100%;
+  max-width: none;
+  min-height: calc(100vh - 90px);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: linear-gradient(160deg, #f5efff, #ffffff 48%, #f1eaff);
+  color: #24105b;
+}
+
+.chat-panel {
+  min-height: calc(100vh - 90px);
+  box-sizing: border-box;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.chat-heading {
+  text-align: center;
+  margin: 10px 0 24px;
+}
+
+.chat-heading h2 {
+  color: #351078;
+  font-size: 30px;
+  margin: 0 0 8px;
+}
+
+.chat-heading p {
+  color: #66558a;
+  font-size: 15px;
+}
+
+.chat-status {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 7px 15px;
+  color: #5420b5;
+  background: #f0e7ff;
+  border: 1px solid #d9c4ff;
+  border-radius: 25px;
+  font-size: 12px;
+}
+
 .chat-messages {
-  height: 340px;
+  flex: 1;
+  min-height: 260px;
   overflow-y: auto;
-  background: #0d0b18;
-  border: 1px solid #39304e;
-  border-radius: 16px;
+  background: rgba(255,255,255,.65);
+  border: 1px solid #e4d7ff;
+  border-radius: 22px;
   padding: 16px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 28px rgba(105,55,190,.07);
 }
 
 .chat-bubble {
   max-width: 88%;
-  padding: 12px 14px;
+  padding: 13px 16px;
   margin: 10px 0;
-  border-radius: 15px;
+  border-radius: 18px;
   line-height: 1.5;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
 
 .chat-bubble.ai {
-  background: #29213e;
-  color: white;
-  border: 1px solid #493765;
+  background: #f0e8ff;
+  color: #29105d;
+  border: 1px solid #dfceff;
 }
 
 .chat-bubble.user {
-  background: #6d3bd1;
+  background: linear-gradient(135deg,#7628e8,#4b16b5);
   color: white;
   margin-left: auto;
 }
@@ -230,44 +285,54 @@ footer{
 
 .chat-compose {
   display: flex;
-  gap: 9px;
+  gap: 10px;
+  padding: 8px;
+  background: white;
+  border: 1px solid #d8c4ff;
+  border-radius: 40px;
+  box-shadow: 0 5px 22px rgba(100,45,190,.15);
 }
 
 .chat-input {
   flex: 1;
   min-width: 0;
   padding: 13px;
-  border-radius: 12px;
-  border: 1px solid #514565;
-  background: #171326;
-  color: white;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #29105d;
   font-size: 15px;
 }
 
+.chat-input::placeholder {
+  color: #8b829e;
+}
+
 .chat-send {
-  padding: 0 20px;
-  background: linear-gradient(135deg,#8b5cf6,#6d28d9);
+  padding: 0 22px;
+  background: linear-gradient(135deg,#8b35f2,#5715c9);
   color: white;
   border: 0;
-  border-radius: 12px;
+  border-radius: 30px;
   font-weight: bold;
 }
 
 .chat-tools {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 10px;
-  margin-top: 12px;
-  color: #c8bfd8;
+  margin-top: 14px;
+  color: #66558a;
   font-size: 12px;
 }
 
 .chat-clear {
-  background: transparent;
-  color: white;
-  border: 1px solid #554968;
-  border-radius: 9px;
-  padding: 7px 11px;
+  background: #f4edff;
+  color: #4d1aa5;
+  border: 1px solid #d8c4ff;
+  border-radius: 25px;
+  padding: 9px 15px;
 }
 
 .typing-dots {
@@ -278,7 +343,7 @@ footer{
 .typing-dots span {
   width: 7px;
   height: 7px;
-  background: #c4b5fd;
+  background: #8b5cf6;
   border-radius: 50%;
   animation: chatTyping 1s infinite;
 }
@@ -299,12 +364,37 @@ footer{
 }
 
 @media(max-width:520px) {
-  .chat-panel { padding: 16px; }
-  .chat-messages { height: 310px; }
-  .chat-compose { gap: 6px; }
-  .chat-send { padding: 0 12px; }
-  .chat-tools { flex-direction: column; }
+  .chat-shell,
+  .chat-panel {
+    min-height: calc(100svh - 90px);
+  }
+
+  .chat-panel {
+    padding: 18px 14px;
+  }
+
+  .chat-heading h2 {
+    font-size: 25px;
+  }
+
+  .chat-messages {
+    min-height: 300px;
+  }
+
+  .chat-compose {
+    gap: 5px;
+  }
+
+  .chat-send {
+    padding: 0 17px;
+  }
+
+  .chat-tools {
+    flex-direction: column;
+  }
 }
+ 
+ 
 /* GPT Coin AI Navigation Menu */
 .main-header {
   display: flex;
