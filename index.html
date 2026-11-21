@@ -1114,53 +1114,58 @@ body:has(#ai-chat:not(.screen-active)) footer {
  
 
  
+
 <section id="settings" data-screen="settings">
   <h2>Settings</h2>
   <p>Manage your GPT Coin experience.</p>
 
+  <h3>Settings</h3>
   <div class="cards">
-    
-      
-<div class="card">
-  <h3>Account Settings</h3>
-  <p>Update your profile details.</p>
+    <a class="card settings-link" href="#settings-account">
+      <h3>👤 Account</h3>
+      <p>Manage your account details.</p>
+    </a>
 
-  <form id="account-form">
-    <label for="account-username">Username</label>
-    <input
-      type="text"
-      id="account-username"
-      placeholder="Enter your username"
-      required
-    >
+    <a class="card settings-link" href="#settings-privacy">
+      <h3>🔒 Privacy & Security</h3>
+      <p>Manage privacy and security.</p>
+    </a>
 
-    <label for="account-email">Email</label>
-    <input
-      type="email"
-      id="account-email"
-      placeholder="Enter your email"
-      required
-    >
+    <a class="card settings-link" href="#settings-devices">
+      <h3>📱 Devices</h3>
+      <p>Manage your devices.</p>
+    </a>
 
-    <button type="submit">Save Changes</button>
-    <p id="account-message"></p>
-  </form>
-</div>
-     
+    <a class="card settings-link" href="#settings-preferences">
+      <h3>⚙️ App Preferences</h3>
+      <p>Customize your experience.</p>
+    </a>
 
-    <div class="card">
-      <h3>Privacy Settings</h3>
-      <p>Privacy and security options.</p>
-      <span class="phase">Coming Soon</span>
-    </div>
+    <a class="card settings-link" href="#settings-language">
+      <h3>🌐 Language</h3>
+      <p>Choose your preferred language.</p>
+    </a>
+  </div>
 
-    <div class="card">
-      <h3>App Preferences</h3>
-      <p>Customize your GPT Coin experience.</p>
-      <span class="phase">Coming Soon</span>
-    </div>
+  <h3>Help</h3>
+  <div class="cards">
+    <a class="card settings-link" href="#settings-help">
+      <h3>❓ Help Center</h3>
+      <p>Find help and answers.</p>
+    </a>
+
+    <a class="card settings-link" href="#settings-terms">
+      <h3>📄 Privacy & Terms</h3>
+      <p>Read our privacy policy and terms.</p>
+    </a>
+
+    <a class="card settings-link" href="#settings-logout">
+      <h3>🚪 Logout</h3>
+      <p>Sign out of your account.</p>
+    </a>
   </div>
 </section>
+ 
  
 <section id="utility" data-screen="home" class="screen-active">
 <h2>Explore AI Utilities</h2>
