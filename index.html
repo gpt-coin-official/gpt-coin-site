@@ -1422,38 +1422,54 @@ body:has(#ai-chat:not(.screen-active)) footer {
 
  
 <section id="pumpfun-screen" data-screen="pumpfun">
+
   <h2>🚀 Pump.fun Holdings</h2>
-<p id="pumpfun-screen-status" hidden></p>
-  <div class="wallet-summary">
+
+  <p id="pumpfun-screen-status" hidden></p>
+
+  <div class="pf-portfolio">
+    <p>Total Portfolio Value</p>
     <h3>$0.00</h3>
-    <p>Total Pump.fun portfolio value</p>
+    <p>📊 Your Pump.fun token portfolio</p>
   </div>
 
-  <h3 class="holdings-title">My Pump.fun Tokens</h3>
-
-  <div class="holdings-table-wrap">
-    <table class="holdings-table">
-      <thead>
-        <tr>
-          <th>Coin</th>
-          <th>Quantity</th>
-          <th>Live price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>No tokens yet</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="pf-wallet-card">
+    <h3>👛 Wallet Overview</h3>
+    <p class="pf-muted">
+      Connect your Phantom wallet to view your token holdings.
+    </p>
+    <p class="pf-muted">Network: Solana</p>
   </div>
+
+  <h3 class="pf-section-title">💎 My Pump.fun Tokens</h3>
+
+  <div class="pf-token-card">
+    <div>
+      <h3>🚀 Your Tokens</h3>
+      <p class="pf-muted">
+        Your Pump.fun tokens will appear here.
+      </p>
+    </div>
+    <div>
+      <p class="pf-muted">Quantity</p>
+      <strong>—</strong>
+    </div>
+    <div>
+      <p class="pf-muted">Live Price</p>
+      <strong>—</strong>
+    </div>
+  </div>
+
+  <p class="pf-muted">
+    Live token balances and prices will be available after wallet data integration.
+  </p>
 
   <button id="pumpfun-back-btn" type="button">
     ← Back to My Wallet
   </button>
+
 </section>
+ 
  
 <section id="holder-benefits" data-screen="holder-benefits">
   <h2>Future Holder Benefits</h2>
