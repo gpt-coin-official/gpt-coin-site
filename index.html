@@ -1160,11 +1160,14 @@ body:has(#ai-chat:not(.screen-active)) footer {
   box-shadow: 0 12px 30px rgba(109, 40, 217, 0.25);
 }
 
-#pumpfun-screen .pf-portfolio h3 {
-  color: #ffffff;
-  font-size: 34px;
-  margin: 12px 0;
+
+/* FORCE BLACK TEXT ON PUMP.FUN BUTTON */
+body:has(#ai-chat:not(.screen-active)) #wallet #pumpfun-view-btn {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  font-weight: 800 !important;
 }
+ 
 
 #pumpfun-screen .pf-portfolio p {
   color: #eee5ff;
