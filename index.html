@@ -1131,6 +1131,144 @@ body:has(#ai-chat:not(.screen-active)) footer {
     padding: 14px 10px;
   }
  }
+ 
+/* SHARED PREMIUM DASHBOARD DESIGN */
+
+#wallet,
+#pumpfun-screen {
+  max-width: 1000px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 35px 6% !important;
+  color: #ffffff;
+  text-align: left !important;
+  background: linear-gradient(145deg, #10091f, #1d1035, #281052);
+}
+
+#wallet h2,
+#pumpfun-screen h2 {
+  color: #ffffff !important;
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+
+#wallet .wallet-summary,
+#pumpfun-screen .pf-portfolio {
+  padding: 26px;
+  margin: 20px 0 24px;
+  border-radius: 20px;
+  background: linear-gradient(120deg, #6d28d9, #9333ea);
+  box-shadow: 0 12px 30px rgba(109, 40, 217, 0.25);
+}
+
+#wallet .wallet-summary h3,
+#pumpfun-screen .pf-portfolio h3 {
+  color: #ffffff;
+  font-size: 34px;
+  margin: 12px 0;
+}
+
+#wallet .wallet-summary p,
+#pumpfun-screen .pf-portfolio p {
+  color: #eee5ff;
+  margin: 0;
+}
+
+#wallet .wallet-option,
+#pumpfun-screen .pf-wallet-card,
+#pumpfun-screen .pf-token-card {
+  padding: 20px;
+  margin: 16px 0;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 17px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+}
+
+#wallet .wallet-option h3,
+#pumpfun-screen .pf-wallet-card h3,
+#pumpfun-screen .pf-token-card h3 {
+  color: #ffffff;
+}
+
+#wallet .wallet-option p,
+#pumpfun-screen .pf-muted {
+  color: #c4b5fd;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+#wallet #connect-wallet-btn,
+#wallet #pumpfun-view-btn,
+#pumpfun-screen #pumpfun-back-btn {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  color: #ffffff;
+  background: linear-gradient(120deg, #6d28d9, #9333ea);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#wallet .holdings-title,
+#pumpfun-screen .pf-section-title {
+  color: #ffffff;
+  margin: 26px 0 15px;
+}
+
+#wallet .holdings-table-wrap {
+  overflow-x: auto;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 16px;
+}
+
+#wallet .holdings-table {
+  width: 100%;
+  color: #ffffff;
+  border-collapse: collapse;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+#wallet .holdings-table th {
+  padding: 15px 12px;
+  color: #e9d5ff;
+  background: rgba(109,40,217,0.3);
+  text-align: left;
+}
+
+#wallet .holdings-table td {
+  padding: 15px 12px;
+  color: #ffffff;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+#wallet .wallet-note {
+  color: #c4b5fd;
+  font-size: 12px;
+  margin-top: 22px;
+}
+
+@media (max-width: 600px) {
+  #wallet,
+  #pumpfun-screen {
+    padding: 24px 16px !important;
+  }
+
+  #wallet .wallet-options {
+    grid-template-columns: 1fr;
+  }
+
+  #wallet .wallet-summary h3,
+  #pumpfun-screen .pf-portfolio h3 {
+    font-size: 29px;
+  }
+}
 </style>
  
 
