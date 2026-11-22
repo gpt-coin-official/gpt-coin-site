@@ -1200,7 +1200,74 @@ body:has(#ai-chat:not(.screen-active)) footer {
   color: #742bd1;
   font-size: 13px;
 }
- /* CLEAN APP PREFERENCES PAGE */
+ 
+/* LOGOUT CONFIRMATION POPUP */
+
+.logout-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(20, 10, 35, 0.65);
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.logout-modal.show {
+  display: flex;
+}
+
+.logout-dialog {
+  width: 100%;
+  max-width: 360px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px 22px;
+  text-align: center;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.logout-dialog h2 {
+  color: #351078;
+  font-size: 23px;
+  margin: 0 0 12px;
+}
+
+.logout-dialog p {
+  color: #716481;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.logout-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.logout-actions button {
+  flex: 1;
+  padding: 13px 10px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#cancel-logout {
+  background: #f1ecf8;
+  color: #5420b5;
+  border: 1px solid #e2d7f3;
+}
+
+#confirm-logout {
+  background: #742bd1;
+  color: #ffffff;
+  border: none;
+}
+ 
+ /* CLEAN APP PREFErRENCES PAGE */
 
 #settings-preferences .preference-item {
   padding: 20px 0;
