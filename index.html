@@ -545,7 +545,91 @@ backdrop-filter: none !important;
     transform: translate(-50%, -50%);
   }
 }
- 
+/* Pump.fun Holdings Screen Design */
+#pumpfun-screen {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 24px;
+  color: #ffffff;
+  background: linear-gradient(145deg, #160b32, #281052);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  border-radius: 22px;
+  box-shadow: 0 15px 45px rgba(20, 5, 50, 0.25);
+}
+
+#pumpfun-screen h2 {
+  color: #ffffff;
+  font-size: 25px;
+  margin-bottom: 22px;
+}
+
+#pumpfun-screen .pf-portfolio {
+  padding: 24px;
+  margin: 20px 0;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #6d28d9, #9333ea);
+}
+
+#pumpfun-screen .pf-portfolio p {
+  color: #eee5ff;
+  margin: 0;
+}
+
+#pumpfun-screen .pf-portfolio h3 {
+  color: #ffffff;
+  font-size: 34px;
+  margin: 12px 0;
+}
+
+#pumpfun-screen .pf-wallet-card,
+#pumpfun-screen .pf-token-card {
+  padding: 18px;
+  margin: 16px 0;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+}
+
+#pumpfun-screen .pf-section-title {
+  color: #ffffff;
+  margin: 25px 0 14px;
+}
+
+#pumpfun-screen .pf-token-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#pumpfun-screen .pf-muted {
+  color: #c4b5fd;
+  font-size: 13px;
+}
+
+#pumpfun-screen #pumpfun-back-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+  color: #ffffff;
+  background: #6d28d9;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  #pumpfun-screen {
+    margin: 15px 8px;
+    padding: 17px;
+  }
+
+  #pumpfun-screen .pf-portfolio h3 {
+    font-size: 29px;
+  }
+} 
  
 [data-screen] {
   display: none;
