@@ -2191,39 +2191,74 @@ clearButton.addEventListener("click", function () {
 })();
 </script>
  
+
 <script>
 (function () {
   const button = document.getElementById("connect-wallet-btn");
-  const status = document.getElementById("wallet-status");
-  const address = document.getElementById("wallet-address");
+  const walletStatus = document.getElementById("wallet-status");
+  const walletAddress = document.getElementById("wallet-address");
 
-  if (!button || !status || !address) return;
+  const screen = document.getElementById("phantom-screen");
+  const screenStatus = document.getElementById("phantom-screen-status");
+  const screenAddress = document.getElementById("phantom-screen-address");
+  const backButton = document.getElementById("phantom-back-btn");
+
+  if (!button || !screen || !screenStatus || !screenAddress || !backButton) return;
+
+  function showScreen(screenName) {
+    document.querySelectorAll("[data-screen]").forEach(function (item) {
+      item.classList.remove("screen-active");
+    });
+
+    document.getElementById(screenName).classList.add("screen-active");
+    window.scrollTo(0, 0);
+  }
 
   button.addEventListener("click", async function () {
+    showScreen("phantom-screen");
+
+    screenStatus.hidden = false;
+    screenStatus.textContent = "Connecting to Phantom wallet...";
+
     try {
       const provider = window.phantom?.solana;
 
       if (!provider || !provider.isPhantom) {
-        status.hidden = false;
-        status.textContent =
+        screenStatus.textContent =
           "Phantom not detected. Open this website in Phantom browser.";
         return;
       }
-status.hidden = false;
-      status.textContent = "Connecting wallet...";
-      const response = await provider.connect();
-address.hidden = false;
-      address.textContent =
-        "Wallet Address: " + response.publicKey.toString();
 
-      status.textContent = "Wallet connected successfully!";
+      const response = await provider.connect();
+      const publicKey = response.publicKey.toString();
+
+      screenAddress.textContent = publicKey;
+      screenStatus.textContent = "Phantom wallet connected successfully!";
+
+      if (walletStatus) {
+        walletStatus.hidden = false;
+        walletStatus.textContent = "Wallet connected successfully!";
+      }
+
+      if (walletAddress) {
+        walletAddress.hidden = false;
+        walletAddress.textContent = "Wallet Address: " + publicKey;
+      }
+
       button.textContent = "Wallet Connected";
+
     } catch (error) {
-      status.textContent = "Wallet connection cancelled or failed.";
+      screenStatus.textContent =
+        "Wallet connection cancelled or failed.";
     }
+  });
+
+  backButton.addEventListener("click", function () {
+    showScreen("wallet");
   });
 })();
 </script>
+ 
  
 <script>
 (function () {
