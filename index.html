@@ -2856,5 +2856,42 @@ clearButton.addEventListener("click", function () {
 })();
 </script>
  
+<script>
+(function () {
+  const trigger = document.getElementById("logout-trigger");
+  const modal = document.getElementById("logout-modal");
+  const cancelButton = document.getElementById("cancel-logout");
+  const confirmButton = document.getElementById("confirm-logout");
+  const message = modal?.querySelector(".logout-dialog p");
+
+  if (!trigger || !modal || !cancelButton || !confirmButton) return;
+
+  trigger.addEventListener("click", function (event) {
+    event.preventDefault();
+    if (message) {
+      message.textContent = "Are you sure you want to logout?";
+    }
+    modal.classList.add("show");
+  });
+
+  cancelButton.addEventListener("click", function () {
+    modal.classList.remove("show");
+  });
+
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.classList.remove("show");
+    }
+  });
+
+  confirmButton.addEventListener("click", function () {
+    if (message) {
+      message.textContent =
+        "Logout is not available yet. Login authentication is not connected.";
+    }
+  });
+})();
+                                        </script>
+ 
 </body>
 </html>
