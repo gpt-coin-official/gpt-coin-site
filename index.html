@@ -2854,44 +2854,44 @@ clearButton.addEventListener("click", function () {
     showScreen("wallet");
   });
 })();
-</script>
+
  
 <script>
-(function () {
-  const trigger = document.getElementById("logout-trigger");
+document.addEventListener("click", function (event) {
+  const target = event.target;
+
+  if (!(target instanceof Element)) return;
+
   const modal = document.getElementById("logout-modal");
-  const cancelButton = document.getElementById("cancel-logout");
-  const confirmButton = document.getElementById("confirm-logout");
-  const message = modal?.querySelector(".logout-dialog p");
+  if (!modal) return;
 
-  if (!trigger || !modal || !cancelButton || !confirmButton) return;
-
-  trigger.addEventListener("click", function (event) {
+  if (target.closest("#logout-trigger")) {
     event.preventDefault();
-    if (message) {
-      message.textContent = "Are you sure you want to logout?";
-    }
     modal.classList.add("show");
-  });
+    return;
+  }
 
-  cancelButton.addEventListener("click", function () {
+  if (target.closest("#cancel-logout")) {
+    event.preventDefault();
     modal.classList.remove("show");
-  });
+    return;
+  }
 
-  modal.addEventListener("click", function (event) {
-    if (event.target === modal) {
-      modal.classList.remove("show");
-    }
-  });
+  if (target.closest("#confirm-logout")) {
+    event.preventDefault();
+    const message = modal.querySelector(".logout-dialog p");
 
-  confirmButton.addEventListener("click", function () {
     if (message) {
       message.textContent =
         "Logout is not available yet. Login authentication is not connected.";
     }
-  });
-})();
-                                        </script>
- 
-</body>
+    return;
+  }
+
+  if (target === modal) {
+    modal.classList.remove("show");
+  }
+});
+</script>
+ </body>
 </html>
