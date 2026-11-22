@@ -1083,91 +1083,29 @@ body:has(#ai-chat:not(.screen-active)) footer {
 
 /* ACCOUNT PAGE PREMIUM DESIGN */
 
-#settings-account .account-profile {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  background: linear-gradient(135deg, #5420b5, #8b35f2);
-  padding: 24px;
-  border-radius: 18px;
-  margin: 24px 0;
-  color: white;
+
+/* CLEAN ACCOUNT PAGE */
+
+#settings-account .account-item {
+  padding: 20px 0;
+  border-bottom: 1px solid #e7dcff;
 }
 
-#settings-account .account-avatar {
-  width: 65px;
-  height: 65px;
-  min-width: 65px;
-  border-radius: 50%;
-  background: white;
-  color: #5420b5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  font-weight: bold;
-}
-
-#settings-account .account-profile h3,
-#settings-account .account-profile p {
-  color: white;
-  margin: 4px 0;
-}
-
-#settings-account .account-status {
-  display: inline-block;
-  margin-top: 7px;
-  padding: 5px 12px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.2);
-  color: white;
-  font-size: 12px;
-}
-
-#settings-account .account-detail-card {
-  padding: 22px !important;
-  margin: 18px 0 !important;
-}
-
-#settings-account .account-info-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 0;
-  border-bottom: 1px solid #eee8f8;
-}
-
-#settings-account .account-info-row:last-child {
-  border-bottom: none;
-}
-
-#settings-account .account-info-row span {
-  color: #716481;
-}
-
-#settings-account .account-info-row strong {
+#settings-account .account-item h3 {
   color: #351078;
-  text-align: right;
+  font-size: 17px;
+  margin: 0 0 9px;
 }
 
-#settings-account .account-detail-card p {
+#settings-account .account-item p {
   color: #716481;
-  line-height: 1.6;
+  line-height: 1.7;
+  margin: 5px 0;
 }
 
-@media (max-width: 600px) {
-  #settings-account .account-profile {
-    padding: 18px;
-  }
-
-  #settings-account .account-info-row {
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  #settings-account .account-info-row strong {
-    text-align: left;
-  }
+#settings-account .account-item span {
+  color: #742bd1;
+  font-size: 13px;
 }
  
 
