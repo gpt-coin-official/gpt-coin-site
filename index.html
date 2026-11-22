@@ -1081,6 +1081,95 @@ body:has(#ai-chat:not(.screen-active)) footer {
   }
 }
 
+/* ACCOUNT PAGE PREMIUM DESIGN */
+
+#settings-account .account-profile {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: linear-gradient(135deg, #5420b5, #8b35f2);
+  padding: 24px;
+  border-radius: 18px;
+  margin: 24px 0;
+  color: white;
+}
+
+#settings-account .account-avatar {
+  width: 65px;
+  height: 65px;
+  min-width: 65px;
+  border-radius: 50%;
+  background: white;
+  color: #5420b5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+#settings-account .account-profile h3,
+#settings-account .account-profile p {
+  color: white;
+  margin: 4px 0;
+}
+
+#settings-account .account-status {
+  display: inline-block;
+  margin-top: 7px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  font-size: 12px;
+}
+
+#settings-account .account-detail-card {
+  padding: 22px !important;
+  margin: 18px 0 !important;
+}
+
+#settings-account .account-info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #eee8f8;
+}
+
+#settings-account .account-info-row:last-child {
+  border-bottom: none;
+}
+
+#settings-account .account-info-row span {
+  color: #716481;
+}
+
+#settings-account .account-info-row strong {
+  color: #351078;
+  text-align: right;
+}
+
+#settings-account .account-detail-card p {
+  color: #716481;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  #settings-account .account-profile {
+    padding: 18px;
+  }
+
+  #settings-account .account-info-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  #settings-account .account-info-row strong {
+    text-align: left;
+  }
+}
+ 
 /* MY WALLET - PREMIUM DESIGN */
  
 /* MY WALLET - PREMIUM DESIGN */
@@ -1908,13 +1997,52 @@ body:has(#ai-chat:not(.screen-active)) footer {
  
  
 <section id="settings-account" data-screen="settings-account">
-  <h2>👤 Account</h2>
-  <p>Manage your GPT Coin account information.</p>
-  <div class="card">
-    <h3>Account Information</h3>
-    <p>View your profile details and account information here.</p>
+
+  <h2>👤 My Account</h2>
+  <p>Manage your GPT Coin profile and account information.</p>
+
+  <div class="account-profile">
+    <div class="account-avatar">G</div>
+    <div>
+      <h3>GPT Coin Member</h3>
+      <p>Welcome to GPT Coin</p>
+      <span class="account-status">Guest Account</span>
+    </div>
   </div>
+
+  <div class="card account-detail-card">
+    <h3>Personal Information</h3>
+    <div class="account-info-row">
+      <span>Account Name</span>
+      <strong>Not set</strong>
+    </div>
+    <div class="account-info-row">
+      <span>Email Address</span>
+      <strong>Not connected</strong>
+    </div>
+    <div class="account-info-row">
+      <span>Account Type</span>
+      <strong>Guest</strong>
+    </div>
+  </div>
+
+  <div class="card account-detail-card">
+    <h3>Wallet Information</h3>
+    <div class="account-info-row">
+      <span>Wallet Status</span>
+      <strong>Not connected</strong>
+    </div>
+    <p>Connect your wallet to access your crypto assets.</p>
+  </div>
+
+  <div class="card account-detail-card">
+    <h3>Account Security</h3>
+    <p>Your account security options will be available when login is connected.</p>
+  </div>
+
 </section>
+ 
+
 
 <section id="settings-privacy" data-screen="settings-privacy">
   <h2>🔒 Privacy & Security</h2>
