@@ -1648,7 +1648,11 @@ body:has(#ai-chat:not(.screen-active)) footer {
   color: #000000 !important;
   -webkit-text-fill-color: #000000 !important;
 }
- 
+body:has(#ai-chat:not(.screen-active)) > #logout-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+} 
 </style>
  
 
