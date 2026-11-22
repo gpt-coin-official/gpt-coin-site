@@ -2076,7 +2076,7 @@ body:has(#ai-chat:not(.screen-active)) footer {
   <nav class="settings-menu">
     <a href="#settings-help">Help Center</a>
     <a href="#settings-terms">Privacy & Terms</a>
-    <a href="#settings-logout">Logout</a>
+    <a href="#" id="logout-trigger">Logout</a>
   </nav>
 
 </section>
@@ -2273,14 +2273,17 @@ body:has(#ai-chat:not(.screen-active)) footer {
 </section>
 
 
-<section id="settings-logout" data-screen="settings-logout">
-  <h2>🚪 Logout</h2>
-  <p>Sign out of your GPT Coin account.</p>
-  <div class="card">
-    <h3>Sign Out</h3>
-    <p>Account sign-out functionality will be connected when login authentication is available.</p>
+<div id="logout-modal" class="logout-modal">
+  <div class="logout-dialog">
+    <h2>Logout?</h2>
+    <p>Are you sure you want to logout?</p>
+
+    <div class="logout-actions">
+      <button id="cancel-logout">Cancel</button>
+      <button id="confirm-logout">Logout</button>
+    </div>
   </div>
-</section>
+</div>
  
  
 <section id="utility" data-screen="home" class="screen-active">
