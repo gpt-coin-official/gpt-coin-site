@@ -2981,13 +2981,27 @@ document.addEventListener("click", function (event) {
     hideGate();
 
     const user = data.session.user;
-    const name = document.getElementById("account-view-username");
-    const email = document.getElementById("account-view-email");
-    const provider = document.getElementById("account-view-provider");
+    
+const name = document.getElementById("account-view-username");
+const email = document.getElementById("account-view-email");
+const provider = document.getElementById("account-view-provider");
 
-    if (name) name.textContent = user.user_metadata?.username || "Not set";
-    if (email) email.textContent = user.email || "Not set";
-    if (provider) provider.textContent = "Email";
+const settingsName = document.getElementById("settings-account-username");
+const settingsEmail = document.getElementById("settings-account-email");
+const settingsType = document.getElementById("settings-account-type");
+const settingsStatus = document.getElementById("settings-account-status");
+
+const username = user.user_metadata?.username || "Not set";
+
+if (name) name.textContent = username;
+if (email) email.textContent = user.email || "Not set";
+if (provider) provider.textContent = "Email";
+
+if (settingsName) settingsName.textContent = username;
+if (settingsEmail) settingsEmail.textContent = user.email || "Not set";
+if (settingsType) settingsType.textContent = "Registered";
+if (settingsStatus) settingsStatus.textContent = "Registered Account";
+   
   }
 
   get("gate-signup").addEventListener("click", async function () {
