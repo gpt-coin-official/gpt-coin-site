@@ -2883,11 +2883,25 @@ import bs58 from "https://esm.sh/bs58@5.0.0";
         throw new Error("Phantom did not return a wallet address and session.");
       }
 
-      sessionStorage.setItem("gptcoin_phantom_public_key", result.public_key);
-      sessionStorage.setItem("gptcoin_phantom_session", result.session);
-      sessionStorage.setItem("gptcoin_phantom_shared_secret", toBase64(sharedSecret));
+            const connection = {
+        type: "gptcoin-phantom-connected",
+        publicKey: result.public_key,
+        session: result.session,
+        sharedSecret: toBase64(sharedSecret)
+      };
 
-      showConnected(result.public_key);
+      receiveWalletConnection(connection);
+
+      if (walletChannel) {
+        walletChannel.postMessage(connection);
+      }
+
+      try {
+        localStorage.setItem(connectionEventKey, JSON.stringify(connection));
+        localStorage.removeItem(connectionEventKey);
+      } catch (storageError) {
+        console.warn("Could not notify the original GPT Coin tab.", storageError);
+      }
 
     } catch (error) {
       screenStatus.textContent = error.message || "Phantom connection failed.";
