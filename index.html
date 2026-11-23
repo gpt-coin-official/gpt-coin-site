@@ -2898,5 +2898,167 @@ document.addEventListener("click", function (event) {
   }
 });
 </script>
+ 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+(function () {
+  const SUPABASE_URL = "https://gfwvzowkclmsdlivpkla.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_JdO7Uw-y0wh3ORINFZk26A_pY_FcjO1";
+
+  const client = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  const account = document.getElementById("account");
+  if (!account) return;
+
+  const panel = document.createElement("div");
+  panel.id = "gpt-auth-panel";
+  panel.style.cssText =
+    "max-width:420px;margin:20px auto;padding:22px;background:#21143d;border-radius:18px;color:white;box-sizing:border-box;";
+
+  panel.innerHTML = `
+    <h3 style="color:#f6c85f;text-align:center;">GPT Coin Login / Signup</h3>
+
+    <input id="gpt-auth-username" placeholder="Username (Signup only)"
+      style="width:100%;padding:13px;margin:8px 0;box-sizing:border-box;">
+
+    <input id="gpt-auth-email" type="email" placeholder="Email address"
+      style="width:100%;padding:13px;margin:8px 0;box-sizing:border-box;">
+
+    <input id="gpt-auth-password" type="password" placeholder="Password (minimum 6 characters)"
+      style="width:100%;padding:13px;margin:8px 0;box-sizing:border-box;">
+
+    <button id="gpt-auth-signup" style="width:100%;padding:13px;margin:7px 0;">Create Account</button>
+    <button id="gpt-auth-login" style="width:100%;padding:13px;margin:7px 0;">Login</button>
+    <button id="gpt-auth-reset" style="width:100%;padding:13px;margin:7px 0;">Forgot Password</button>
+    <button id="gpt-auth-logout" style="width:100%;padding:13px;margin:7px 0;display:none;">Logout</button>
+
+    <p id="gpt-auth-message" style="text-align:center;overflow-wrap:anywhere;"></p>
+  `;
+
+  const profile = account.querySelector("#account-view-username");
+  const profileBox = profile ? profile.parentElement.parentElement : null;
+  if (profileBox) {
+    profileBox.insertAdjacentElement("afterend", panel);
+  } else {
+    account.appendChild(panel);
+  }
+
+  const get = id => document.getElementById(id);
+  const message = text => {
+    get("gpt-auth-message").textContent = text;
+  };
+
+  async function refreshAccount() {
+    const { data } = await client.auth.getSession();
+    const user = data.session?.user;
+
+    get("gpt-auth-logout").style.display = user ? "block" : "none";
+    get("gpt-auth-signup").style.display = user ? "none" : "block";
+    get("gpt-auth-login").style.display = user ? "none" : "block";
+
+    if (user) {
+      const username = user.user_metadata?.username || "Not set";
+      const email = user.email || "Not set";
+
+      const nameEl = document.getElementById("account-view-username");
+      const emailEl = document.getElementById("account-view-email");
+      const providerEl = document.getElementById("account-view-provider");
+
+      if (nameEl) nameEl.textContent = username;
+      if (emailEl) emailEl.textContent = email;
+      if (providerEl) providerEl.textContent = "Email";
+
+      message("You are logged in successfully!");
+    } else {
+      const nameEl = document.getElementById("account-view-username");
+      const emailEl = document.getElementById("account-view-email");
+      const providerEl = document.getElementById("account-view-provider");
+
+      if (nameEl) nameEl.textContent = "Not set";
+      if (emailEl) emailEl.textContent = "Not set";
+      if (providerEl) providerEl.textContent = "Not connected";
+    }
+  }
+
+  get("gpt-auth-signup").addEventListener("click", async () => {
+    const username = get("gpt-auth-username").value.trim();
+    const email = get("gpt-auth-email").value.trim();
+    const password = get("gpt-auth-password").value;
+
+    if (!username || !email || !password) {
+      return message("Please enter username, email and password.");
+    }
+    if (password.length < 6) {
+      return message("Password must be at least 6 characters.");
+    }
+
+    message("Creating your account...");
+
+    const { error } = await client.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { username },
+        emailRedirectTo: window.location.href.split("#")[0]
+      }
+    });
+
+    if (error) return message(error.message);
+
+    message("Signup submitted! Check your email for the confirmation link.");
+    await refreshAccount();
+  });
+
+  get("gpt-auth-login").addEventListener("click", async () => {
+    const email = get("gpt-auth-email").value.trim();
+    const password = get("gpt-auth-password").value;
+
+    if (!email || !password) {
+      return message("Please enter email and password.");
+    }
+
+    message("Logging in...");
+
+    const { error } = await client.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) return message(error.message);
+
+    message("Login successful!");
+    await refreshAccount();
+  });
+
+  get("gpt-auth-reset").addEventListener("click", async () => {
+    const email = get("gpt-auth-email").value.trim();
+
+    if (!email) return message("Enter your email address first.");
+
+    const { error } = await client.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.href.split("#")[0]
+    });
+
+    message(error ? error.message : "Password reset link sent. Check your email.");
+  });
+
+  get("gpt-auth-logout").addEventListener("click", async () => {
+    const { error } = await client.auth.signOut();
+    message(error ? error.message : "You have logged out.");
+    await refreshAccount();
+  });
+
+  client.auth.onAuthStateChange(() => {
+    refreshAccount();
+  });
+
+  refreshAccount();
+})();
+     </script>
+ 
  </body>
 </html>
