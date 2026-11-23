@@ -2746,12 +2746,15 @@ clearButton.addEventListener("click", function () {
 </script>
  
 
-<script>
+
+<script type="module">
+import nacl from "https://esm.sh/tweetnacl@1.0.3";
+import bs58 from "https://esm.sh/bs58@5.0.0";
+
 (function () {
   const button = document.getElementById("connect-wallet-btn");
   const walletStatus = document.getElementById("wallet-status");
   const walletAddress = document.getElementById("wallet-address");
-
   const screen = document.getElementById("phantom-screen");
   const screenStatus = document.getElementById("phantom-screen-status");
   const screenAddress = document.getElementById("phantom-screen-address");
@@ -2759,59 +2762,158 @@ clearButton.addEventListener("click", function () {
 
   if (!button || !screen || !screenStatus || !screenAddress || !backButton) return;
 
+  const appUrl = "https://joguabhinay-art.github.io/gpt-coin-site/";
+  const storageKey = "gptcoin_phantom_dapp_secret";
+
   function showScreen(screenName) {
     document.querySelectorAll("[data-screen]").forEach(function (item) {
       item.classList.remove("screen-active");
     });
-
-    document.getElementById(screenName).classList.add("screen-active");
+    const target = document.getElementById(screenName);
+    if (target) target.classList.add("screen-active");
     window.scrollTo(0, 0);
+  }
+
+  function toBase64(bytes) {
+    return btoa(Array.from(bytes, function (byte) {
+      return String.fromCharCode(byte);
+    }).join(""));
+  }
+
+  function fromBase64(value) {
+    return Uint8Array.from(atob(value), function (char) {
+      return char.charCodeAt(0);
+    });
+  }
+
+  function getDappKeyPair() {
+    const savedSecret = localStorage.getItem(storageKey);
+    if (savedSecret) {
+      return nacl.box.keyPair.fromSecretKey(fromBase64(savedSecret));
+    }
+    const pair = nacl.box.keyPair();
+    localStorage.setItem(storageKey, toBase64(pair.secretKey));
+    return pair;
+  }
+
+  function showConnected(publicKey) {
+    showScreen("phantom-screen");
+    screenAddress.textContent = publicKey;
+    screenStatus.hidden = false;
+    screenStatus.textContent = "Phantom wallet connected successfully!";
+
+    if (walletStatus) {
+      walletStatus.hidden = false;
+      walletStatus.textContent = "Wallet connected successfully!";
+    }
+    if (walletAddress) {
+      walletAddress.hidden = false;
+      walletAddress.textContent = "Wallet Address: " + publicKey;
+    }
+    button.textContent = "Wallet Connected";
+  }
+
+  function handlePhantomReturn() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("phantom") !== "connect") return;
+
+    showScreen("phantom-screen");
+    screenStatus.hidden = false;
+
+    try {
+      const errorMessage = params.get("errorMessage");
+      const phantomPublicKey = params.get("phantom_encryption_public_key");
+      const encryptedData = params.get("data");
+      const nonce = params.get("nonce");
+
+      if (params.get("errorCode") || errorMessage) {
+        throw new Error(errorMessage || "Connection was cancelled in Phantom.");
+      }
+      if (!phantomPublicKey || !encryptedData || !nonce) {
+        throw new Error("Phantom response is incomplete. Please try again.");
+      }
+
+      const pair = getDappKeyPair();
+      const sharedSecret = nacl.box.before(
+        bs58.decode(phantomPublicKey),
+        pair.secretKey
+      );
+
+      const decrypted = nacl.box.open.after(
+        bs58.decode(encryptedData),
+        bs58.decode(nonce),
+        sharedSecret
+      );
+
+      if (!decrypted) {
+        throw new Error("Could not verify Phantom's secure response.");
+      }
+
+      const result = JSON.parse(new TextDecoder().decode(decrypted));
+
+      if (!result.public_key || !result.session) {
+        throw new Error("Phantom did not return a wallet address and session.");
+      }
+
+      sessionStorage.setItem("gptcoin_phantom_public_key", result.public_key);
+      sessionStorage.setItem("gptcoin_phantom_session", result.session);
+      sessionStorage.setItem("gptcoin_phantom_shared_secret", toBase64(sharedSecret));
+
+      showConnected(result.public_key);
+
+    } catch (error) {
+      screenStatus.textContent = error.message || "Phantom connection failed.";
+    } finally {
+      localStorage.removeItem(storageKey);
+      window.history.replaceState(
+        {},
+        document.title,
+        window.location.pathname + window.location.hash
+      );
+    }
   }
 
   button.addEventListener("click", async function () {
     showScreen("phantom-screen");
-
     screenStatus.hidden = false;
-    screenStatus.textContent = "Connecting to Phantom wallet...";
+    screenStatus.textContent = "Opening Phantom wallet...";
 
     try {
-      const provider = window.phantom?.solana;
+      const provider = window.phantom && window.phantom.solana;
 
-      if (!provider || !provider.isPhantom) {
-        screenStatus.textContent =
-          "Phantom not detected. Open this website in Phantom browser.";
+      if (provider && provider.isPhantom) {
+        const response = await provider.connect();
+        showConnected(response.publicKey.toString());
         return;
       }
 
-      const response = await provider.connect();
-      const publicKey = response.publicKey.toString();
+      const pair = getDappKeyPair();
+      const redirectLink = appUrl + "?phantom=connect";
 
-      screenAddress.textContent = publicKey;
-      screenStatus.textContent = "Phantom wallet connected successfully!";
+      const params = new URLSearchParams({
+        app_url: appUrl,
+        dapp_encryption_public_key: bs58.encode(pair.publicKey),
+        redirect_link: redirectLink,
+        cluster: "mainnet-beta"
+      });
 
-      if (walletStatus) {
-        walletStatus.hidden = false;
-        walletStatus.textContent = "Wallet connected successfully!";
-      }
-
-      if (walletAddress) {
-        walletAddress.hidden = false;
-        walletAddress.textContent = "Wallet Address: " + publicKey;
-      }
-
-      button.textContent = "Wallet Connected";
+      window.location.href =
+        "https://phantom.com/ul/v1/connect?" + params.toString();
 
     } catch (error) {
       screenStatus.textContent =
-        "Wallet connection cancelled or failed.";
+        error.message || "Could not start Phantom connection.";
     }
   });
 
   backButton.addEventListener("click", function () {
     showScreen("wallet");
   });
+
+  handlePhantomReturn();
 })();
 </script>
+ 
  
  
 <script>
