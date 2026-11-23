@@ -2764,7 +2764,35 @@ import bs58 from "https://esm.sh/bs58@5.0.0";
 
   const appUrl = "https://joguabhinay-art.github.io/gpt-coin-site/";
   const storageKey = "gptcoin_phantom_dapp_secret";
+  const connectionEventKey = "gptcoin_phantom_connection_event";
+  const walletChannel = "BroadcastChannel" in window
+    ? new BroadcastChannel("gptcoin-phantom-wallet")
+    : null;
 
+  function receiveWalletConnection(connection) {
+    if (!connection || connection.type !== "gptcoin-phantom-connected") return;
+    if (!connection.publicKey || !connection.session || !connection.sharedSecret) return;
+
+    sessionStorage.setItem("gptcoin_phantom_public_key", connection.publicKey);
+    sessionStorage.setItem("gptcoin_phantom_session", connection.session);
+    sessionStorage.setItem("gptcoin_phantom_shared_secret", connection.sharedSecret);
+    showConnected(connection.publicKey);
+  }
+
+  if (walletChannel) {
+    walletChannel.addEventListener("message", function (event) {
+      receiveWalletConnection(event.data);
+    });
+  }
+
+  window.addEventListener("storage", function (event) {
+    if (event.key !== connectionEventKey || !event.newValue) return;
+    try {
+      receiveWalletConnection(JSON.parse(event.newValue));
+    } catch (error) {
+      console.warn("Could not read Phantom connection event.", error);
+    }
+  });
   function showScreen(screenName) {
     document.querySelectorAll("[data-screen]").forEach(function (item) {
       item.classList.remove("screen-active");
