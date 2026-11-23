@@ -2911,94 +2911,101 @@ document.addEventListener("click", function (event) {
     SUPABASE_KEY
   );
 
-  const account = document.getElementById("account");
-  if (!account) return;
+  const gate = document.createElement("div");
+  gate.id = "gpt-login-gate";
 
-  const panel = document.createElement("div");
-  panel.id = "gpt-auth-panel";
-  panel.style.cssText =
-    "max-width:420px;margin:20px auto;padding:22px;background:#21143d;border-radius:18px;color:white;box-sizing:border-box;";
-
-  panel.innerHTML = `
-    <h3 style="color:#f6c85f;text-align:center;">GPT Coin Login / Signup</h3>
-
-    <input id="gpt-auth-username" placeholder="Username (Signup only)"
-      style="width:100%;padding:13px;margin:8px 0;box-sizing:border-box;">
-
-    <input id="gpt-auth-email" type="email" placeholder="Email address"
-      style="width:100%;padding:13px;margin:8px 0;box-sizing:border-box;">
-
-    <input id="gpt-auth-password" type="password" placeholder="Password (minimum 6 characters)"
-      style="width:100%;padding:13px;margin:8px 0;box-sizing:border-box;">
-
-    <button id="gpt-auth-signup" style="width:100%;padding:13px;margin:7px 0;">Create Account</button>
-    <button id="gpt-auth-login" style="width:100%;padding:13px;margin:7px 0;">Login</button>
-    <button id="gpt-auth-reset" style="width:100%;padding:13px;margin:7px 0;">Forgot Password</button>
-    <button id="gpt-auth-logout" style="width:100%;padding:13px;margin:7px 0;display:none;">Logout</button>
-
-    <p id="gpt-auth-message" style="text-align:center;overflow-wrap:anywhere;"></p>
+  gate.style.cssText = `
+    position:fixed;
+    inset:0;
+    z-index:999999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:linear-gradient(145deg,#160b32,#281052);
+    font-family:Arial,sans-serif;
+    color:white;
+    overflow-y:auto;
   `;
 
-  const profile = account.querySelector("#account-view-username");
-  const profileBox = profile ? profile.parentElement.parentElement : null;
-  if (profileBox) {
-    profileBox.insertAdjacentElement("afterend", panel);
-  } else {
-    account.appendChild(panel);
-  }
+  gate.innerHTML = `
+    <div style="width:100%;max-width:420px;padding:28px;background:#21143d;border:1px solid #65449b;border-radius:22px;box-sizing:border-box;">
+      <h1 style="text-align:center;color:#f6c85f;">GPT Coin</h1>
+      <p style="text-align:center;color:#ddd;">Login or create your account</p>
+
+      <input id="gate-username" placeholder="Username (Sign Up only)"
+        style="width:100%;padding:14px;margin:9px 0;box-sizing:border-box;border-radius:10px;">
+
+      <input id="gate-email" type="email" placeholder="Email address"
+        style="width:100%;padding:14px;margin:9px 0;box-sizing:border-box;border-radius:10px;">
+
+      <input id="gate-password" type="password" placeholder="Password (minimum 6 characters)"
+        style="width:100%;padding:14px;margin:9px 0;box-sizing:border-box;border-radius:10px;">
+
+      <button id="gate-signup" style="width:100%;padding:14px;margin:8px 0;">Create Account</button>
+      <button id="gate-login" style="width:100%;padding:14px;margin:8px 0;">Login</button>
+      <button id="gate-reset" style="width:100%;padding:12px;margin:8px 0;">Forgot Password?</button>
+
+      <p id="gate-message" style="text-align:center;overflow-wrap:anywhere;"></p>
+    </div>
+  `;
+
+  document.body.appendChild(gate);
 
   const get = id => document.getElementById(id);
-  const message = text => {
-    get("gpt-auth-message").textContent = text;
-  };
 
-  async function refreshAccount() {
-    const { data } = await client.auth.getSession();
-    const user = data.session?.user;
-
-    get("gpt-auth-logout").style.display = user ? "block" : "none";
-    get("gpt-auth-signup").style.display = user ? "none" : "block";
-    get("gpt-auth-login").style.display = user ? "none" : "block";
-
-    if (user) {
-      const username = user.user_metadata?.username || "Not set";
-      const email = user.email || "Not set";
-
-      const nameEl = document.getElementById("account-view-username");
-      const emailEl = document.getElementById("account-view-email");
-      const providerEl = document.getElementById("account-view-provider");
-
-      if (nameEl) nameEl.textContent = username;
-      if (emailEl) emailEl.textContent = email;
-      if (providerEl) providerEl.textContent = "Email";
-
-      message("You are logged in successfully!");
-    } else {
-      const nameEl = document.getElementById("account-view-username");
-      const emailEl = document.getElementById("account-view-email");
-      const providerEl = document.getElementById("account-view-provider");
-
-      if (nameEl) nameEl.textContent = "Not set";
-      if (emailEl) emailEl.textContent = "Not set";
-      if (providerEl) providerEl.textContent = "Not connected";
-    }
+  function showMessage(text) {
+    get("gate-message").textContent = text;
   }
 
-  get("gpt-auth-signup").addEventListener("click", async () => {
-    const username = get("gpt-auth-username").value.trim();
-    const email = get("gpt-auth-email").value.trim();
-    const password = get("gpt-auth-password").value;
+  function showGate() {
+    gate.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  }
+
+  function hideGate() {
+    gate.style.display = "none";
+    document.body.style.overflow = "";
+  }
+
+  async function refreshSession() {
+    const { data, error } = await client.auth.getSession();
+
+    if (error || !data.session) {
+      showGate();
+      return;
+    }
+
+    hideGate();
+
+    const user = data.session.user;
+    const name = document.getElementById("account-view-username");
+    const email = document.getElementById("account-view-email");
+    const provider = document.getElementById("account-view-provider");
+
+    if (name) name.textContent = user.user_metadata?.username || "Not set";
+    if (email) email.textContent = user.email || "Not set";
+    if (provider) provider.textContent = "Email";
+  }
+
+  get("gate-signup").addEventListener("click", async function () {
+    const username = get("gate-username").value.trim();
+    const email = get("gate-email").value.trim();
+    const password = get("gate-password").value;
 
     if (!username || !email || !password) {
-      return message("Please enter username, email and password.");
+      showMessage("Please enter username, email and password.");
+      return;
     }
+
     if (password.length < 6) {
-      return message("Password must be at least 6 characters.");
+      showMessage("Password must be at least 6 characters.");
+      return;
     }
 
-    message("Creating your account...");
+    showMessage("Creating your account...");
 
-    const { error } = await client.auth.signUp({
+    const { data, error } = await client.auth.signUp({
       email,
       password,
       options: {
@@ -3007,58 +3014,87 @@ document.addEventListener("click", function (event) {
       }
     });
 
-    if (error) return message(error.message);
-
-    message("Signup submitted! Check your email for the confirmation link.");
-    await refreshAccount();
-  });
-
-  get("gpt-auth-login").addEventListener("click", async () => {
-    const email = get("gpt-auth-email").value.trim();
-    const password = get("gpt-auth-password").value;
-
-    if (!email || !password) {
-      return message("Please enter email and password.");
+    if (error) {
+      showMessage(error.message);
+      return;
     }
 
-    message("Logging in...");
+    if (data.session) {
+      showMessage("Account created successfully!");
+      await refreshSession();
+    } else {
+      showMessage("Account created! Please check your email and confirm your account, then login.");
+    }
+  });
+
+  get("gate-login").addEventListener("click", async function () {
+    const email = get("gate-email").value.trim();
+    const password = get("gate-password").value;
+
+    if (!email || !password) {
+      showMessage("Please enter email and password.");
+      return;
+    }
+
+    showMessage("Logging in...");
 
     const { error } = await client.auth.signInWithPassword({
       email,
       password
     });
 
-    if (error) return message(error.message);
+    if (error) {
+      showMessage(error.message);
+      return;
+    }
 
-    message("Login successful!");
-    await refreshAccount();
+    showMessage("Login successful!");
+    await refreshSession();
   });
 
-  get("gpt-auth-reset").addEventListener("click", async () => {
-    const email = get("gpt-auth-email").value.trim();
+  get("gate-reset").addEventListener("click", async function () {
+    const email = get("gate-email").value.trim();
 
-    if (!email) return message("Enter your email address first.");
+    if (!email) {
+      showMessage("Please enter your email address first.");
+      return;
+    }
 
     const { error } = await client.auth.resetPasswordForEmail(email, {
       redirectTo: window.location.href.split("#")[0]
     });
 
-    message(error ? error.message : "Password reset link sent. Check your email.");
+    showMessage(error ? error.message : "Password reset link sent. Check your email.");
   });
 
-  get("gpt-auth-logout").addEventListener("click", async () => {
-    const { error } = await client.auth.signOut();
-    message(error ? error.message : "You have logged out.");
-    await refreshAccount();
+  // Logout confirmation handler
+  document.addEventListener("click", async function (event) {
+    if (event.target.closest("#confirm-logout")) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      const { error } = await client.auth.signOut();
+
+      const modal = document.getElementById("logout-modal");
+      if (modal) modal.classList.remove("show");
+
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      showGate();
+    }
+  }, true);
+
+  client.auth.onAuthStateChange(function () {
+    refreshSession();
   });
 
-  client.auth.onAuthStateChange(() => {
-    refreshAccount();
-  });
-
-  refreshAccount();
+  refreshSession();
 })();
      </script>
  
+
  </body>
 </html>
