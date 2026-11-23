@@ -2776,6 +2776,11 @@ import bs58 from "https://esm.sh/bs58@5.0.0";
     sessionStorage.setItem("gptcoin_phantom_public_key", connection.publicKey);
     sessionStorage.setItem("gptcoin_phantom_session", connection.session);
     sessionStorage.setItem("gptcoin_phantom_shared_secret", connection.sharedSecret);
+       try {
+      localStorage.setItem(savedConnectionKey, JSON.stringify(connection));
+    } catch (error) {
+      console.warn("Could not save Phantom connection.", error);
+       }
     showConnected(connection.publicKey);
   }
 
