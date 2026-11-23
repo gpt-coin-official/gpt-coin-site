@@ -2841,17 +2841,6 @@ import bs58 from "https://esm.sh/bs58@5.0.0";
       walletStatus.textContent = "Wallet connected successfully!";
     }
     if (walletAddress) {
-       function restoreSavedConnection() {
-    try {
-      const saved = localStorage.getItem(savedConnectionKey);
-      if (!saved) return;
-
-      const connection = JSON.parse(saved);
-      receiveWalletConnection(connection);
-    } catch (error) {
-      console.warn("Could not restore Phantom connection.", error);
-    }
-       }
       walletAddress.hidden = false;
       walletAddress.textContent = "Wallet Address: " + publicKey;
     }
