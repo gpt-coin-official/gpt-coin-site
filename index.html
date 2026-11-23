@@ -2157,20 +2157,23 @@ body:has(#ai-chat:not(.screen-active)) > #logout-modal {
 
 <section id="settings-account" data-screen="settings-account">
 
+
   <h2>My Account</h2>
   <p>Manage your GPT Coin account information.</p>
 
   <div class="account-item">
     <h3>Profile</h3>
     <p>GPT Coin Member</p>
-    <span>Guest Account</span>
+    <span id="settings-account-status">Registered Account</span>
   </div>
 
   <div class="account-item">
     <h3>Personal Information</h3>
-    <p>Account Name: Not set</p>
-    <p>Email Address: Not connected</p>
-    <p>Account Type: Guest</p>
+    <p>Account Name: <span id="settings-account-username">Not set</span></p>
+    <p>Email Address: <span id="settings-account-email">Not connected</span></p>
+    <p>Account Type: <span id="settings-account-type">Registered</span></p>
+  </div>
+ 
   </div>
 
   <div class="account-item">
