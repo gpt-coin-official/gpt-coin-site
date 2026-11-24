@@ -1451,7 +1451,39 @@ body:has(#ai-chat:not(.screen-active)) footer {
   padding: 15px 10px;
   border-top: 1px solid #eee7fa;
 }
+#wallet .holdings-table th {
+  background: linear-gradient(135deg, #eadcff, #d8c5ff);
+}
 
+#wallet .holdings-table tbody tr:nth-child(even) {
+  background: #faf7ff;
+}
+
+#wallet .holdings-table tbody tr:hover {
+  background: #f0e8ff;
+}
+
+#wallet .holdings-table td.price-up {
+  color: #0b9b62;
+  background: #e6fff3;
+  transition: background 0.5s ease;
+}
+
+#wallet .holdings-table td.price-down {
+  color: #e04455;
+  background: #fff0f1;
+  transition: background 0.5s ease;
+}
+
+#wallet .holdings-table td.change-up {
+  color: #0b9b62;
+  font-weight: 700;
+}
+
+#wallet .holdings-table td.change-down {
+  color: #e04455;
+  font-weight: 700;
+}
 #wallet .wallet-note {
   color: #766b8c;
   font-size: 12px;
