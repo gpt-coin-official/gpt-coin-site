@@ -2935,18 +2935,8 @@ import bs58 from "https://esm.sh/bs58@5.0.0";
         return;
       }
 
-      const pair = getDappKeyPair();
-      const redirectLink = appUrl + "?phantom=connect";
-
-      const params = new URLSearchParams({
-        app_url: appUrl,
-        dapp_encryption_public_key: bs58.encode(pair.publicKey),
-        redirect_link: redirectLink,
-        cluster: "mainnet-beta"
-      });
-
-      window.location.href =
-        "https://phantom.app/ul/v1/connect?" + params.toString();
+           screenStatus.textContent =
+        "Open Phantom app > Browser > visit https://joguabhinay-art.github.io/gpt-coin-site/ and tap Connect Phantom."; 
 
     } catch (error) {
       screenStatus.textContent =
