@@ -1451,6 +1451,38 @@ body:has(#ai-chat:not(.screen-active)) footer {
   padding: 15px 10px;
   border-top: 1px solid #eee7fa;
 }
+ 
+#wallet .holdings-table td.coin-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+}
+
+#wallet .coin-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+#wallet .coin-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+#wallet .coin-info strong {
+  color: #35234f;
+  font-size: 13px;
+}
+
+#wallet .coin-info small {
+  color: #8a7b9e;
+  font-size: 11px;
+}
+ 
 #wallet .holdings-table th {
   background: linear-gradient(135deg, #eadcff, #d8c5ff);
 }
