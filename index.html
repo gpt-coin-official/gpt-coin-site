@@ -1753,72 +1753,43 @@ body:has(#ai-chat:not(.screen-active)) > #logout-modal {
 
 <h3 class="holdings-title">My Holdings</h3>
 
-<div class="holdings-table-wrap">
-  <table class="holdings-table">
-    <thead>
-      <tr>
-        <th>Coin</th>
-        <th>Quantity</th>
-        <th>Live price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>SOL</td>
-        <td>Wallet balance</td>
-        <td>Live</td>
-      </tr>
-      <tr>
-        <td>GPT Coin</td>
-        <td>Your balance</td>
-        <td>Live</td>
-      </tr>
-      <tr>
-        <td>Other tokens</td>
-        <td>Your balance</td>
-        <td>Live</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
 
-<div class="trending-section">
-  <h3 class="holdings-title">🔥 Solana Trending Coins</h3>
-  <p id="trending-status">Loading trending coins...</p>
+  <p class="note">Explore Pump.fun and live Solana market data.</p>
 
-  <div class="holdings-table-wrap">
-    <table class="holdings-table">
-      <thead>
-        <tr>
-          <th>Coin</th>
-          <th>Price</th>
-          <th>24h Change</th>
-          <th>Market Cap</th>
-          <th>24h Volume</th>
-        </tr>
-      </thead>
-      <tbody id="trending-coins-list">
-        <tr>
-          <td colspan="5">Loading live market data...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
- 
-<p class="wallet-note">
-  Never share your wallet recovery phrase or private keys.
-</p>
- 
   <div class="wallet-options">
     <div class="wallet-option">
       <h3>🚀 Pump.fun</h3>
-      <p>View your Pump.fun token holdings on Solana.</p>
+      <p>Explore tokens on Pump.fun.</p>
       <button id="pumpfun-view-btn" type="button">
-        Open Pump.fun Holdings
+        Open Pump.fun
       </button>
     </div>
   </div>
+
+  <div class="trending-section">
+    <h3 class="holdings-title">🔥 Live Market — Solana Trending Coins</h3>
+    <p id="trending-status">Loading trending coins...</p>
+
+    <div class="holdings-table-wrap">
+      <table class="holdings-table">
+        <thead>
+          <tr>
+            <th>Coin</th>
+            <th>Price</th>
+            <th>24h Change</th>
+            <th>Market Cap</th>
+            <th>24h Volume</th>
+          </tr>
+        </thead>
+        <tbody id="trending-coins-list">
+          <tr>
+            <td colspan="5">Loading live market data...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+ 
 </section>
 
  
