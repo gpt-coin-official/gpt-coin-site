@@ -2629,7 +2629,8 @@ const settingsEmail = document.getElementById("settings-account-email");
 const settingsType = document.getElementById("settings-account-type");
 const settingsStatus = document.getElementById("settings-account-status");
 const settingsSecurityStatus = document.getElementById("settings-account-security-status");
-const username = user.user_metadata?.username || "Not set";
+const settingsSecurityStatus = document.getElementById("settings-account-security-status");
+   const username = user.user_metadata?.username || "Not set";
 
 if (name) name.textContent = username;
 if (email) email.textContent = user.email || "Not set";
