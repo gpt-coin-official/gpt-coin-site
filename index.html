@@ -2808,33 +2808,7 @@ import bs58 from "https://esm.sh/bs58@5.0.0";
   button.addEventListener("click", async function () {
     showScreen("phantom-screen");
     screenStatus.hidden = false;
-    screenStatus.textContent = "Opening Phantom wallet...";
 
-    try {
-      const provider = window.phantom && window.phantom.solana;
-
-      if (provider && provider.isPhantom) {
-        const response = await provider.connect();
-        showConnected(response.publicKey.toString());
-        return;
-      }
-
-           screenStatus.textContent =
-        "Open Phantom app > Browser > visit https://joguabhinay-art.github.io/gpt-coin-site/ and tap Connect Phantom."; 
-
-    } catch (error) {
-      screenStatus.textContent =
-        error.message || "Could not start Phantom connection.";
-    }
-  });
-
-  backButton.addEventListener("click", function () {
-    showScreen("wallet");
-  });
-
-  handlePhantomReturn();
-})();
-</script>
  
  
  
