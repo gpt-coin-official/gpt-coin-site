@@ -2850,6 +2850,22 @@ if (settingsSecurityStatus) {
   function money(value) {
     const n = Number(value);
     if (!Number.isFinite(n)) return "—";
+    
+<script>
+(function () {
+  const list = document.getElementById("trending-coins-list");
+  const status = document.getElementById("trending-status");
+
+  if (!list || !status) return;
+
+  const api =
+    "https://api.geckoterminal.com/api/v2/networks/solana/trending_pools?include=base_token&duration=24h";
+
+  const previousPrices = {};
+
+  function money(value) {
+    const n = Number(value);
+    if (!Number.isFinite(n)) return "—";
     if (n >= 1000000000) return "$" + (n / 1000000000).toFixed(2) + "B";
     if (n >= 1000000) return "$" + (n / 1000000).toFixed(2) + "M";
     if (n >= 1000) return "$" + (n / 1000).toFixed(2) + "K";
@@ -2893,6 +2909,10 @@ if (settingsSecurityStatus) {
         const tokenId = pool.relationships?.base_token?.data?.id;
         const token = tokenMap[tokenId] || {};
         const symbol = token.symbol || a.name || "Unknown";
+        const currentPrice = Number(a.base_token_price_usd);
+        const key = tokenId || pool.id;
+        const oldPrice = previousPrices[key];
+
         const change = Number(a.price_change_percentage?.h24);
         const changeText = Number.isFinite(change)
           ? change.toFixed(2) + "%"
@@ -2900,10 +2920,34 @@ if (settingsSecurityStatus) {
 
         const row = document.createElement("tr");
 
+        const coinCell = document.createElement("td");
+        coinCell.textContent = symbol;
+        row.appendChild(coinCell);
+
+        const priceCell = document.createElement("td");
+        priceCell.textContent = price(currentPrice);
+
+        if (Number.isFinite(oldPrice) && Number.isFinite(currentPrice)) {
+          if (currentPrice > oldPrice) {
+            priceCell.className = "price-up";
+          } else if (currentPrice < oldPrice) {
+            priceCell.className = "price-down";
+          }
+        }
+
+        row.appendChild(priceCell);
+
+        const changeCell = document.createElement("td");
+        changeCell.textContent = changeText;
+
+        if (Number.isFinite(change)) {
+          if (change > 0) changeCell.className = "change-up";
+          if (change < 0) changeCell.className = "change-down";
+        }
+
+        row.appendChild(changeCell);
+
         [
-          symbol,
-          price(a.base_token_price_usd),
-          changeText,
           money(a.market_cap_usd || a.fdv_usd),
           money(a.volume_usd?.h24)
         ].forEach(function (value) {
@@ -2913,6 +2957,10 @@ if (settingsSecurityStatus) {
         });
 
         list.appendChild(row);
+
+        if (Number.isFinite(currentPrice)) {
+          previousPrices[key] = currentPrice;
+        }
       });
 
       status.textContent =
@@ -2932,6 +2980,8 @@ if (settingsSecurityStatus) {
   loadTrending();
   setInterval(loadTrending, 60000);
 })();
+</script>
+ 
 </script>
  
  </body>
