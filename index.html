@@ -1484,6 +1484,25 @@ body:has(#ai-chat:not(.screen-active)) footer {
   color: #e04455;
   font-weight: 700;
 }
+ 
+@keyframes priceUpFlash {
+  0% { background: #8fffc5; }
+  100% { background: #e6fff3; }
+}
+
+@keyframes priceDownFlash {
+  0% { background: #ff9da8; }
+  100% { background: #fff0f1; }
+}
+
+#wallet .holdings-table td.price-up {
+  animation: priceUpFlash 1.2s ease;
+}
+
+#wallet .holdings-table td.price-down {
+  animation: priceDownFlash 1.2s ease;
+}
+ 
 #wallet .wallet-note {
   color: #766b8c;
   font-size: 12px;
