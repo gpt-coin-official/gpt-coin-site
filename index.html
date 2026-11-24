@@ -2655,6 +2655,7 @@ async function registerCurrentDevice(user) {
     hideGate();
 
     const user = data.session.user;
+   await registerCurrentDevice(user);
    const username = user.user_metadata?.username || "Not set";
     
 const name = document.getElementById("account-view-username");
