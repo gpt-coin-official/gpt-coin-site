@@ -2805,5 +2805,102 @@ if (settingsSecurityStatus) {
      </script>
  
 
+<script>
+(function () {
+  const list = document.getElementById("trending-coins-list");
+  const status = document.getElementById("trending-status");
+
+  if (!list || !status) return;
+
+  const api =
+    "https://api.geckoterminal.com/api/v2/networks/solana/trending_pools?include=base_token&duration=24h";
+
+  function money(value) {
+    const n = Number(value);
+    if (!Number.isFinite(n)) return "—";
+    if (n >= 1000000000) return "$" + (n / 1000000000).toFixed(2) + "B";
+    if (n >= 1000000) return "$" + (n / 1000000).toFixed(2) + "M";
+    if (n >= 1000) return "$" + (n / 1000).toFixed(2) + "K";
+    return "$" + n.toFixed(2);
+  }
+
+  function price(value) {
+    const n = Number(value);
+    if (!Number.isFinite(n)) return "—";
+    return "$" + (n < 0.01 ? n.toFixed(8) : n.toFixed(4));
+  }
+
+  async function loadTrending() {
+    status.textContent = "Loading trending meme tokens...";
+
+    try {
+      const response = await fetch(api, {
+        headers: { "Accept": "application/json;version=20230302" }
+      });
+
+      if (!response.ok) throw new Error("Market data unavailable");
+
+      const result = await response.json();
+      const tokens = result.included || [];
+      const tokenMap = {};
+
+      tokens.forEach(function (token) {
+        if (token.type === "token") {
+          tokenMap[token.id] = token.attributes;
+        }
+      });
+
+      const pools = result.data || [];
+
+      if (!pools.length) throw new Error("No trending tokens found");
+
+      list.innerHTML = "";
+
+      pools.slice(0, 15).forEach(function (pool) {
+        const a = pool.attributes || {};
+        const tokenId = pool.relationships?.base_token?.data?.id;
+        const token = tokenMap[tokenId] || {};
+        const symbol = token.symbol || a.name || "Unknown";
+        const change = Number(a.price_change_percentage?.h24);
+        const changeText = Number.isFinite(change)
+          ? change.toFixed(2) + "%"
+          : "—";
+
+        const row = document.createElement("tr");
+
+        [
+          symbol,
+          price(a.base_token_price_usd),
+          changeText,
+          money(a.market_cap_usd || a.fdv_usd),
+          money(a.volume_usd?.h24)
+        ].forEach(function (value) {
+          const cell = document.createElement("td");
+          cell.textContent = value;
+          row.appendChild(cell);
+        });
+
+        list.appendChild(row);
+      });
+
+      status.textContent =
+        "Live Solana trending tokens • Updated just now";
+
+    } catch (error) {
+      status.textContent =
+        "Market data could not load. Please try again later.";
+
+      list.innerHTML =
+        '<tr><td colspan="5">Live data temporarily unavailable.</td></tr>';
+
+      console.error("Trending market error:", error);
+    }
+  }
+
+  loadTrending();
+  setInterval(loadTrending, 60000);
+})();
+</script>
+ 
  </body>
 </html>
