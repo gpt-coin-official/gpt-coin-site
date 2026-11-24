@@ -2594,6 +2594,7 @@ document.addEventListener("click", function (event) {
     hideGate();
 
     const user = data.session.user;
+   const username = user.user_metadata?.username || "Not set";
     
 const name = document.getElementById("account-view-username");
 const email = document.getElementById("account-view-email");
