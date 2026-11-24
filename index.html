@@ -2765,7 +2765,10 @@ import bs58 from "https://esm.sh/bs58@5.0.0";
   const appUrl = "https://joguabhinay-art.github.io/gpt-coin-site/";
   const storageKey = "gptcoin_phantom_dapp_secret";
    const connectionEventKey = "gptcoin_phantom_connection_event";
-    const savedConnectionKey = "gptcoin_phantom_saved_connection";
+      localStorage.removeItem("gptcoin_phantom_saved_connection");
+  sessionStorage.removeItem("gptcoin_phantom_public_key");
+  sessionStorage.removeItem("gptcoin_phantom_session");
+  sessionStorage.removeItem("gptcoin_phantom_shared_secret");
   const walletChannel = "BroadcastChannel" in window
     ? new BroadcastChannel("gptcoin-phantom-wallet")
     : null;
@@ -2777,11 +2780,7 @@ import bs58 from "https://esm.sh/bs58@5.0.0";
     sessionStorage.setItem("gptcoin_phantom_public_key", connection.publicKey);
     sessionStorage.setItem("gptcoin_phantom_session", connection.session);
     sessionStorage.setItem("gptcoin_phantom_shared_secret", connection.sharedSecret);
-       try {
-      localStorage.setItem(savedConnectionKey, JSON.stringify(connection));
-    } catch (error) {
-      console.warn("Could not save Phantom connection.", error);
-       }
+       
     showConnected(connection.publicKey);
   }
 
@@ -2846,25 +2845,7 @@ import bs58 from "https://esm.sh/bs58@5.0.0";
     }
     button.textContent = "Wallet Connected";
   }
-   function restoreSavedConnection() {
-    try {
-      const saved = localStorage.getItem(savedConnectionKey);
-      if (!saved) return;
-
-      const connection = JSON.parse(saved);
-
-      if (
-        connection.type === "gptcoin-phantom-connected" &&
-        connection.publicKey &&
-        connection.session &&
-        connection.sharedSecret
-      ) {
-        receiveWalletConnection(connection);
-      }
-    } catch (error) {
-      console.warn("Could not restore Phantom connection.", error);
-    }
-   }
+   
 
   function handlePhantomReturn() {
     const params = new URLSearchParams(window.location.search);
