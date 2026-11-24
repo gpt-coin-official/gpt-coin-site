@@ -2604,11 +2604,7 @@ const settingsEmail = document.getElementById("settings-account-email");
 const settingsType = document.getElementById("settings-account-type");
 const settingsStatus = document.getElementById("settings-account-status");
 const settingsSecurityStatus = document.getElementById("settings-account-security-status");
-const privacyAccountInfo = document.getElementById("settings-privacy-account-info");
-const privacyAccountStatus = document.getElementById("settings-privacy-account-status");
-   const username = user.user_metadata?.username || "Not set";
-const privacyLoginInfo = document.getElementById("settings-privacy-login-info");
-const privacyLoginStatus = document.getElementById("settings-privacy-login-status");
+
 if (name) name.textContent = username;
 if (email) email.textContent = user.email || "Not set";
 if (provider) provider.textContent = "Email";
