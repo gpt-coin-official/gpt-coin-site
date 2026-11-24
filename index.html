@@ -2856,20 +2856,7 @@ if (settingsSecurityStatus) {
      </script>
  
 
-<script>
-(function () {
-  const list = document.getElementById("trending-coins-list");
-  const status = document.getElementById("trending-status");
 
-  if (!list || !status) return;
-
-  const api =
-    "https://api.geckoterminal.com/api/v2/networks/solana/trending_pools?include=base_token&duration=24h";
-
-  function money(value) {
-    const n = Number(value);
-    if (!Number.isFinite(n)) return "—";
-    
 <script>
 (function () {
   const list = document.getElementById("trending-coins-list");
@@ -3001,7 +2988,6 @@ if (settingsSecurityStatus) {
 })();
 </script>
  
-</script>
  
  </body>
 </html>
