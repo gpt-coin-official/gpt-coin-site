@@ -2765,53 +2765,7 @@ import bs58 from "https://esm.sh/bs58@5.0.0";
 
       if (!decrypted) {
         throw new Error("Could not verify Phantom's secure response.");
-      }
 
-      const result = JSON.parse(new TextDecoder().decode(decrypted));
-
-      if (!result.public_key || !result.session) {
-        throw new Error("Phantom did not return a wallet address and session.");
-      }
-
-            const connection = {
-        type: "gptcoin-phantom-connected",
-        publicKey: result.public_key,
-        session: result.session,
-        sharedSecret: toBase64(sharedSecret)
-      };
-
-      receiveWalletConnection(connection);
-
-      if (walletChannel) {
-        walletChannel.postMessage(connection);
-      }
-
-      try {
-        localStorage.setItem(connectionEventKey, JSON.stringify(connection));
-        localStorage.removeItem(connectionEventKey);
-      } catch (storageError) {
-        console.warn("Could not notify the original GPT Coin tab.", storageError);
-      }
-
-    } catch (error) {
-      screenStatus.textContent = error.message || "Phantom connection failed.";
-    } finally {
-      localStorage.removeItem(storageKey);
-      window.history.replaceState(
-        {},
-        document.title,
-        window.location.pathname + window.location.hash
-      );
-    }
-  }
-
-  button.addEventListener("click", async function () {
-    showScreen("phantom-screen");
-    screenStatus.hidden = false;
-
- 
- 
- 
 <script>
 (function () {
   const button = document.getElementById("pumpfun-view-btn");
