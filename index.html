@@ -2930,14 +2930,20 @@ if (settingsSecurityStatus) {
         coinCell.textContent = symbol;
         row.appendChild(coinCell);
 
+        
         const priceCell = document.createElement("td");
         priceCell.textContent = price(currentPrice);
 
+        if (Number.isFinite(change)) {
+          if (change > 0) priceCell.classList.add("change-up");
+          if (change < 0) priceCell.classList.add("change-down");
+        }
+
         if (Number.isFinite(oldPrice) && Number.isFinite(currentPrice)) {
           if (currentPrice > oldPrice) {
-            priceCell.className = "price-up";
+            priceCell.classList.add("price-up");
           } else if (currentPrice < oldPrice) {
-            priceCell.className = "price-down";
+            priceCell.classList.add("price-down");
           }
         }
 
@@ -2959,8 +2965,15 @@ if (settingsSecurityStatus) {
         ].forEach(function (value) {
           const cell = document.createElement("td");
           cell.textContent = value;
+
+          if (Number.isFinite(change)) {
+            if (change > 0) cell.className = "change-up";
+            if (change < 0) cell.className = "change-down";
+          }
+
           row.appendChild(cell);
         });
+
 
         list.appendChild(row);
 
