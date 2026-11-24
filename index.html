@@ -2926,9 +2926,38 @@ if (settingsSecurityStatus) {
 
         const row = document.createElement("tr");
 
+        
         const coinCell = document.createElement("td");
-        coinCell.textContent = symbol;
+        coinCell.className = "coin-cell";
+
+        const logo = document.createElement("img");
+        logo.className = "coin-logo";
+        logo.src = token.image_url || "";
+        logo.alt = (token.name || symbol) + " logo";
+        logo.loading = "lazy";
+        logo.onerror = function () {
+          this.style.display = "none";
+        };
+
+        const coinInfo = document.createElement("div");
+        coinInfo.className = "coin-info";
+
+        const coinName = document.createElement("strong");
+        coinName.textContent = token.name || symbol;
+
+        const coinSymbol = document.createElement("small");
+        coinSymbol.textContent = symbol;
+
+        coinInfo.appendChild(coinName);
+        coinInfo.appendChild(coinSymbol);
+
+        if (token.image_url) {
+          coinCell.appendChild(logo);
+        }
+
+        coinCell.appendChild(coinInfo);
         row.appendChild(coinCell);
+       
 
         
         const priceCell = document.createElement("td");
