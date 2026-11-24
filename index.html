@@ -2541,6 +2541,110 @@ document.addEventListener("click", function (event) {
   }
 
   async function refreshSession() {
+   function getDeviceDetails() {
+  const ua = navigator.userAgent || "";
+  let deviceType = "Desktop";
+  let deviceName = "Desktop device";
+
+  if (/Android/i.test(ua)) {
+    deviceType = "Mobile";
+    deviceName = "Android device";
+  } else if (/iPhone/i.test(ua)) {
+    deviceType = "Mobile";
+    deviceName = "iPhone";
+  } else if (/iPad/i.test(ua)) {
+    deviceType = "Tablet";
+    deviceName = "iPad";
+  } else if (/Windows/i.test(ua)) {
+    deviceName = "Windows PC";
+  } else if (/Macintosh|Mac OS/i.test(ua)) {
+    deviceName = "Mac";
+  }
+
+  let browser = "Unknown browser";
+  if (/Edg\//i.test(ua)) browser = "Microsoft Edge";
+  else if (/Chrome\//i.test(ua)) browser = "Chrome";
+  else if (/Firefox\//i.test(ua)) browser = "Firefox";
+  else if (/Safari\//i.test(ua)) browser = "Safari";
+
+  return { deviceType, deviceName, browser };
+}
+
+function getStableDeviceId() {
+  let id = localStorage.getItem("gptCoinDeviceId");
+
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("gptCoinDeviceId", id);
+  }
+
+  return id;
+}
+
+async function registerCurrentDevice(user) {
+  const status = document.getElementById("devices-status");
+  const list = document.getElementById("devices-list");
+
+  if (!status || !list || !user) return;
+
+  status.textContent = "Registering this device...";
+
+  const details = getDeviceDetails();
+  const deviceId = getStableDeviceId();
+
+  const { error: saveError } = await client
+    .from("user_devices")
+    .upsert({
+      user_id: user.id,
+      device_id: deviceId,
+      device_name: details.deviceName,
+      device_type: details.deviceType,
+      browser: details.browser,
+      last_seen: new Date().toISOString()
+    }, { onConflict: "user_id,device_id" });
+
+  if (saveError) {
+    status.textContent = "Error: " + saveError.message;
+    return;
+  }
+
+  const { data, error } = await client
+    .from("user_devices")
+    .select("device_id, device_name, device_type, browser, last_seen")
+    .eq("user_id", user.id)
+    .order("last_seen", { ascending: false });
+
+  if (error) {
+    status.textContent = "Error: " + error.message;
+    return;
+  }
+
+  list.replaceChildren();
+
+  status.textContent = data.length + " device(s) connected";
+
+  data.forEach(function(device) {
+    const card = document.createElement("div");
+    card.className = "device-item";
+
+    const title = document.createElement("h3");
+    title.textContent = device.device_name || "Unknown device";
+
+    if (device.device_id === deviceId) {
+      title.textContent += " (This device)";
+    }
+
+    const info = document.createElement("p");
+    info.textContent = device.browser + " • " + device.device_type;
+
+    const seen = document.createElement("span");
+    seen.textContent = "Last active: " +
+      new Date(device.last_seen).toLocaleString();
+
+    card.append(title, info, seen);
+    list.appendChild(card);
+  });
+}
     const { data, error } = await client.auth.getSession();
 
     if (error || !data.session) {
