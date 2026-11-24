@@ -2648,6 +2648,12 @@ if (settingsStatus) settingsStatus.textContent = "Registered Account";
 if (privacyAccountStatus) {
   privacyAccountStatus.textContent = "Registered Account";
 }
+   if (privacyLoginInfo) {
+  privacyLoginInfo.textContent = `Logged in as ${user.email || "Registered user"}.`;
+}
+if (privacyLoginStatus) {
+  privacyLoginStatus.textContent = "Login Active";
+}
 if (settingsSecurityStatus) {
   settingsSecurityStatus.textContent = "Login status: Connected";
 }   
