@@ -2641,6 +2641,12 @@ if (settingsName) settingsName.textContent = username;
 if (settingsEmail) settingsEmail.textContent = user.email || "Not set";
 if (settingsType) settingsType.textContent = "Registered";
 if (settingsStatus) settingsStatus.textContent = "Registered Account";
+   if (privacyAccountInfo) {
+  privacyAccountInfo.textContent = `Account: ${username} | Email: ${user.email || "Not set"}`;
+}
+if (privacyAccountStatus) {
+  privacyAccountStatus.textContent = "Registered Account";
+}
 if (settingsSecurityStatus) {
   settingsSecurityStatus.textContent = "Login status: Connected";
 }   
