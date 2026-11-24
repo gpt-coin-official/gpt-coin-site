@@ -2639,50 +2639,14 @@ clearButton.addEventListener("click", function () {
 <script>
 (function () {
   const button = document.getElementById("pumpfun-view-btn");
-  const screen = document.getElementById("pumpfun-screen");
-  const backButton = document.getElementById("pumpfun-back-btn");
-  const status = document.getElementById("pumpfun-screen-status");
 
-  if (!button || !screen || !backButton || !status) return;
+  if (!button) return;
 
-  function showScreen(screenName) {
-    document.querySelectorAll("[data-screen]").forEach(function (item) {
-      item.classList.remove("screen-active");
-    });
-
-    document.getElementById(screenName).classList.add("screen-active");
-    window.scrollTo(0, 0);
-  }
-
-  button.addEventListener("click", async function () {
-    showScreen("pumpfun-screen");
-
-    status.hidden = false;
-    status.textContent = "Opening Pump.fun Holdings...";
-
-    try {
-      const provider = window.phantom?.solana;
-
-      if (!provider || !provider.isPhantom) {
-        status.textContent =
-          "Phantom not detected. Open this website in Phantom browser to connect your wallet.";
-        return;
-      }
-
-      await provider.connect();
-
-      status.textContent =
-        "Wallet connected! Pump.fun holdings will appear here after data integration.";
-    } catch (error) {
-      status.textContent = "Wallet connection cancelled or failed.";
-    }
-  });
-
-  backButton.addEventListener("click", function () {
-    showScreen("wallet");
+  button.addEventListener("click", function () {
+    window.location.href = "https://pump.fun/";
   });
 })();
- </script>
+</script>
 
  
 <script>
