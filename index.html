@@ -1981,12 +1981,44 @@ body:has(#ai-chat:not(.screen-active)) > #logout-modal {
   </div>
  
     
+<div class="help-item">
+  <h3>Contact Support</h3>
+  <p>Have a question? Send us a message.</p>
 
-  <div class="help-item">
-    <h3>Contact Support</h3>
-    <p>Support contact information will be available soon.</p>
-    <span>Coming Soon</span>
-  </div>
+  <form id="support-contact-form">
+    <label for="support-subject">Subject</label>
+    <input
+      id="support-subject"
+      type="text"
+      maxlength="120"
+      placeholder="Enter subject"
+      required
+    >
+
+    <label for="support-message">Message</label>
+    <textarea
+      id="support-message"
+      rows="5"
+      maxlength="5000"
+      minlength="10"
+      placeholder="Write your message..."
+      required
+    ></textarea>
+
+    <button type="submit" id="support-submit">
+      Send Message
+    </button>
+
+    <p id="support-form-status" role="status"></p>
+  </form>
+
+  <p>Support email:
+    <a href="mailto:jabhinay004@gmail.com">
+      jabhinay004@gmail.com
+    </a>
+  </p>
+</div>
+  
 
 </section>
 
