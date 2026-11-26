@@ -2654,7 +2654,11 @@ document.addEventListener("click", function (event) {
       <button id="gate-signup" style="width:100%;padding:14px;margin:8px 0;">Create Account</button>
       <button id="gate-login" style="width:100%;padding:14px;margin:8px 0;">Login</button>
       <button id="gate-reset" style="width:100%;padding:12px;margin:8px 0;">Forgot Password?</button>
-
+      <a href="#settings-terms"
+        onclick="document.getElementById('gpt-login-gate').style.display='none';document.body.style.overflow='';"
+        style="display:block;text-align:center;color:#f6c85f;margin:14px 0;text-decoration:underline;">
+        Privacy &amp; Terms
+      </a>
       <p id="gate-message" style="text-align:center;overflow-wrap:anywhere;"></p>
     </div>
   `;
