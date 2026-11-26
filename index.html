@@ -2401,21 +2401,61 @@ clearButton.addEventListener("click", function () {
         label.className = "chat-label";
         label.textContent = "GPT Coin AI";
 
-        const image = document.createElement("img");
-        image.src = data.image;
-        image.alt = message;
-        image.style.width = "100%";
-        image.style.maxWidth = "350px";
-        image.style.borderRadius = "12px";
-        image.style.display = "block";
-        image.style.marginTop = "10px";
+        
+const image = document.createElement("img");
+image.alt = message;
+image.style.width = "100%";
+image.style.maxWidth = "350px";
+image.style.borderRadius = "12px";
+image.style.display = "block";
+image.style.marginTop = "10px";
 
-        const download = document.createElement("a");
-        download.href = data.image;
-        download.download = "gpt-coin-ai-image.png";
-        download.textContent = "Download Image";
-        download.style.display = "block";
-        download.style.marginTop = "10px";
+const generatedImage = new Image();
+generatedImage.src = data.image;
+
+const logoImage = new Image();
+logoImage.crossOrigin = "anonymous";
+logoImage.src = data.logoUrl;
+
+await Promise.all([
+  new Promise((resolve, reject) => {
+    generatedImage.onload = resolve;
+    generatedImage.onerror = reject;
+  }),
+  new Promise((resolve, reject) => {
+    logoImage.onload = resolve;
+    logoImage.onerror = reject;
+  })
+]);
+
+const canvas = document.createElement("canvas");
+canvas.width = generatedImage.naturalWidth;
+canvas.height = generatedImage.naturalHeight;
+
+const ctx = canvas.getContext("2d");
+ctx.drawImage(generatedImage, 0, 0);
+
+const logoSize = Math.round(canvas.width * 0.16);
+const margin = Math.round(canvas.width * 0.035);
+
+ctx.drawImage(
+  logoImage,
+  canvas.width - logoSize - margin,
+  canvas.height - logoSize - margin,
+  logoSize,
+  logoSize
+);
+
+const finalImage = canvas.toDataURL("image/png");
+image.src = finalImage;
+
+const download = document.createElement("a");
+download.href = finalImage;
+download.download = "gpt-coin-branded-image.png";
+download.textContent = "Download Image";
+download.style.display = "block";
+download.style.marginTop = "10px";
+       
 
         bubble.appendChild(label);
         bubble.appendChild(image);
