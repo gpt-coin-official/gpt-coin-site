@@ -2619,6 +2619,15 @@ document.addEventListener("click", function (event) {
     SUPABASE_URL,
     SUPABASE_KEY
   );
+   window.gptCoinGetAccessToken = async function () {
+    const { data, error } = await client.auth.getSession();
+
+    if (error || !data.session || !data.session.access_token) {
+      throw new Error("Please login to use GPT Coin AI.");
+    }
+
+    return data.session.access_token;
+  };
 
   const gate = document.createElement("div");
   gate.id = "gpt-login-gate";
