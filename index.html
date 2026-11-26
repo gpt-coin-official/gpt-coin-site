@@ -2815,6 +2815,56 @@ if (settingsSecurityStatus) {
       showGate();
     }
   }, true);
+ 
+  // Contact Support: save messages in Supabase
+  const supportForm = document.getElementById("support-contact-form");
+
+  if (supportForm) {
+    supportForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const status = document.getElementById("support-form-status");
+      const submit = document.getElementById("support-submit");
+      const subject = document.getElementById("support-subject").value.trim();
+      const message = document.getElementById("support-message").value.trim();
+
+      if (!subject || message.length < 10) {
+        status.textContent = "Please enter a subject and a message of at least 10 characters.";
+        return;
+      }
+
+      submit.disabled = true;
+      status.textContent = "Sending your message...";
+
+      try {
+        const { data: { user }, error: userError } = await client.auth.getUser();
+
+        if (userError || !user) {
+          status.textContent = "Please log in before contacting support.";
+          showGate();
+          return;
+        }
+
+        const { error } = await client.from("support_messages").insert({
+          user_id: user.id,
+          email: user.email || "",
+          subject: subject,
+          message: message
+        });
+
+        if (error) throw error;
+
+        supportForm.reset();
+        status.textContent = "Your message was submitted successfully. Our team will review it.";
+      } catch (error) {
+        console.error("Support form error:", error);
+        status.textContent = "Could not send your message. Please try again.";
+      } finally {
+        submit.disabled = false;
+      }
+    });
+  }
+ 
 
   client.auth.onAuthStateChange(function () {
     refreshSession();
