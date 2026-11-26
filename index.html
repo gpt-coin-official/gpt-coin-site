@@ -2376,12 +2376,16 @@ clearButton.addEventListener("click", function () {
         /\b(image|picture|photo)\s+of\b/i.test(message);
 
       if (isImageRequest) {
+                const accessToken = await window.gptCoinGetAccessToken();
+
         const response = await fetch(endpoint + "generate", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + accessToken
+          },
           body: JSON.stringify({ prompt: message })
         });
-
         const data = await response.json();
 
         if (!response.ok || !data.image) {
@@ -2428,9 +2432,14 @@ clearButton.addEventListener("click", function () {
         saveHistory();
 
       } else {
+              const accessToken = await window.gptCoinGetAccessToken();
+
         const response = await fetch(endpoint, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + accessToken
+          },
           body: JSON.stringify({ message, history })
         });
 
