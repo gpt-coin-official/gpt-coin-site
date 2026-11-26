@@ -1086,6 +1086,54 @@ body:has(#ai-chat:not(.screen-active)) footer {
   color: #742bd1;
   font-size: 13px;
 }
+ 
+/* Contact Support - Mobile Friendly Form */
+#settings-help #support-contact-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: left;
+}
+
+#settings-help #support-contact-form label {
+  display: block;
+  width: 100%;
+  font-weight: bold;
+  color: #351078;
+}
+
+#settings-help #support-contact-form input,
+#settings-help #support-contact-form textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 14px;
+  margin: 0 0 10px;
+  font: inherit;
+  font-size: 16px;
+}
+
+#settings-help #support-contact-form textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+#settings-help #support-contact-form button {
+  align-self: flex-start;
+  margin-top: 5px;
+  padding: 12px 22px;
+}
+
+#settings-help #support-form-status {
+  width: 100%;
+  overflow-wrap: anywhere;
+}
+ 
  /* CLEAN PRIVACY & TERMS PAGE */
 
 #settings-terms .terms-item {
