@@ -2972,7 +2972,56 @@ if (settingsSecurityStatus) {
   }
  
 
-  client.auth.onAuthStateChange(function () {
+    client.auth.onAuthStateChange(function (event) {
+    if (event === "PASSWORD_RECOVERY") {
+      gate.innerHTML = `
+        <div style="width:100%;max-width:420px;padding:28px;background:#21143d;border:1px solid #65449b;border-radius:22px;box-sizing:border-box;">
+          <h1 style="text-align:center;color:#f6c85f;">GPT Coin</h1>
+          <p style="text-align:center;color:#ddd;">Create a new password</p>
+
+          <input id="recovery-password" type="password"
+            placeholder="New password (minimum 6 characters)"
+            style="width:100%;padding:14px;margin:9px 0;box-sizing:border-box;border-radius:10px;">
+
+          <button id="recovery-update"
+            style="width:100%;padding:14px;margin:8px 0;">
+            Update Password
+          </button>
+
+          <p id="recovery-message"
+            style="text-align:center;overflow-wrap:anywhere;"></p>
+        </div>
+      `;
+
+      showGate();
+
+      document.getElementById("recovery-update").addEventListener("click", async function () {
+        const password = document.getElementById("recovery-password").value;
+        const message = document.getElementById("recovery-message");
+
+        if (password.length < 6) {
+          message.textContent = "Password must be at least 6 characters.";
+          return;
+        }
+
+        message.textContent = "Updating password...";
+
+        const { error } = await client.auth.updateUser({
+          password: password
+        });
+
+        if (error) {
+          message.textContent = error.message;
+          return;
+        }
+
+        message.textContent = "Password updated successfully! Please login again.";
+        await client.auth.signOut();
+      });
+
+      return;
+    }
+
     refreshSession();
   });
 
