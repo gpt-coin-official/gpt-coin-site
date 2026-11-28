@@ -1648,6 +1648,123 @@ body:has(#ai-chat:not(.screen-active)) > #logout-modal {
   inset: 0 !important;
   z-index: 99999 !important;
 } 
+
+/* GPT COIN COMMUNITY */
+#gpt-community {
+  display: none;
+  min-height: 100vh;
+  padding: 25px 15px;
+  background: linear-gradient(160deg, #100b25, #211044, #120b2b);
+  color: #ffffff;
+}
+
+#gpt-community .community-container {
+  width: 100%;
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(180,130,255,0.25);
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+}
+
+#gpt-community h2 {
+  text-align: center;
+  color: #c9a5ff;
+  margin-bottom: 10px;
+}
+
+#gpt-community p {
+  text-align: center;
+  color: #ddd1f5;
+}
+
+#gpt-community .community-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 22px 0;
+}
+
+#gpt-community button {
+  padding: 11px 15px;
+  border: 0;
+  border-radius: 10px;
+  background: #7138c8;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#gpt-community .community-tabs button {
+  flex: 1;
+}
+
+#gpt-community button:hover {
+  background: #9258ed;
+}
+
+#gpt-community #community-messages {
+  min-height: 250px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding: 15px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+#gpt-community .community-compose {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 12px;
+}
+
+#gpt-community .community-compose label {
+  color: #7138c8;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+#gpt-community #community-message-input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 8px;
+  border: 0;
+  outline: none;
+  color: #222;
+}
+
+#gpt-community #community-post-input {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+#gpt-community #community-post-list,
+#gpt-community #community-poll-list {
+  margin-top: 18px;
+}
+
+@media (max-width: 600px) {
+  #gpt-community {
+    padding: 15px 10px;
+  }
+
+  #gpt-community .community-container {
+    padding: 14px;
+  }
+
+  #gpt-community .community-compose {
+    gap: 5px;
+  }
+   }
+ 
 </style>
  
 
