@@ -3273,6 +3273,508 @@ if (settingsSecurityStatus) {
     
   });
 
+ 
+  // GPT COIN COMMUNITY JAVASCRIPT
+  const communityRoot = document.getElementById("gpt-community");
+
+  if (communityRoot) {
+    let communityStarted = false;
+    let communityChannel = null;
+
+    const byId = id => document.getElementById(id);
+
+    function communityStatus(panel, message) {
+      let status = panel.querySelector(".community-status");
+      if (!status) {
+        status = document.createElement("p");
+        status.className = "community-status";
+        panel.prepend(status);
+      }
+      status.textContent = message;
+    }
+
+    async function communityUser() {
+      const { data, error } = await client.auth.getUser();
+      if (error || !data.user) {
+        showGate();
+        return null;
+      }
+
+      let username = data.user.user_metadata?.username || "Member";
+      const { data: profile } = await client
+        .from("profiles")
+        .select("username")
+        .eq("user_id", data.user.id)
+        .maybeSingle();
+
+      if (profile?.username) username = profile.username;
+
+      return { user: data.user, username };
+    }
+
+    function showCommunityTab(tab) {
+      byId("community-chat-panel").hidden = tab !== "chat";
+      byId("community-posts-panel").hidden = tab !== "posts";
+      byId("community-polls-panel").hidden = tab !== "polls";
+    }
+
+    byId("community-chat-tab").addEventListener("click", () => {
+      showCommunityTab("chat");
+    });
+
+    byId("community-posts-tab").addEventListener("click", () => {
+      showCommunityTab("posts");
+    });
+
+    byId("community-polls-tab").addEventListener("click", () => {
+      showCommunityTab("polls");
+    });
+
+    async function loadCommunityMessages() {
+      const panel = byId("community-chat-panel");
+      const list = byId("community-messages");
+
+      const { data, error } = await client
+        .from("community_messages")
+        .select("*")
+        .order("created_at", { ascending: true })
+        .limit(100);
+
+      if (error) {
+        communityStatus(panel, error.message);
+        return;
+      }
+
+      list.replaceChildren();
+
+      (data || []).forEach(message => {
+        const item = document.createElement("div");
+        item.style.cssText =
+          "padding:10px;margin:8px 0;background:rgba(255,255,255,.09);border-radius:10px;";
+
+        const name = document.createElement("strong");
+        name.textContent = message.username || "Member";
+
+        const body = document.createElement("p");
+        body.textContent = message.body || "";
+
+        const time = document.createElement("small");
+        time.textContent = new Date(message.created_at).toLocaleString();
+
+        item.append(name, body);
+
+        if (message.attachment_path) {
+          const image = document.createElement("img");
+          const { data: urlData } = client.storage
+            .from("community-media")
+            .getPublicUrl(message.attachment_path);
+
+          image.src = urlData.publicUrl;
+          image.alt = "Community image";
+          image.style.cssText =
+            "display:block;max-width:100%;max-height:260px;border-radius:10px;margin-top:8px;";
+          item.appendChild(image);
+        }
+
+        item.appendChild(time);
+        list.appendChild(item);
+      });
+
+      list.scrollTop = list.scrollHeight;
+    }
+
+    async function sendCommunityMessage() {
+      const input = byId("community-message-input");
+      const imageInput = byId("community-image");
+      const fileInput = byId("community-file");
+      const panel = byId("community-chat-panel");
+
+      const body = input.value.trim();
+      const file = imageInput.files[0] || fileInput.files[0];
+
+      if (!body && !file) return;
+
+      const account = await communityUser();
+      if (!account) return;
+
+      let attachmentPath = null;
+
+      if (file) {
+        if (!file.type.startsWith("image/")) {
+          communityStatus(panel, "Please select an image file.");
+          return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+          communityStatus(panel, "Image must be under 5 MB.");
+          return;
+        }
+
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        attachmentPath =
+          account.user.id + "/" + Date.now() + "_" + safeName;
+
+        const { error: uploadError } = await client.storage
+          .from("community-media")
+          .upload(attachmentPath, file);
+
+        if (uploadError) {
+          communityStatus(panel, uploadError.message);
+          return;
+        }
+      }
+
+      const { error } = await client.from("community_messages").insert({
+        user_id: account.user.id,
+        username: account.username,
+        body: body,
+        attachment_path: attachmentPath,
+        attachment_type: file ? "image" : null
+      });
+
+      if (error) {
+        communityStatus(panel, error.message);
+        return;
+      }
+
+      input.value = "";
+      imageInput.value = "";
+      fileInput.value = "";
+      await loadCommunityMessages();
+    }
+
+    byId("community-send").addEventListener("click", sendCommunityMessage);
+
+    byId("community-message-input").addEventListener("keydown", event => {
+      if (event.key === "Enter") sendCommunityMessage();
+    });
+
+    async function loadCommunityPosts() {
+      const panel = byId("community-posts-panel");
+      const list = byId("community-post-list");
+
+      const { data, error } = await client
+        .from("community_posts")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        communityStatus(panel, error.message);
+        return;
+      }
+
+      list.replaceChildren();
+
+      for (const post of data || []) {
+        const card = document.createElement("div");
+        card.style.cssText =
+          "padding:14px;margin:12px 0;background:rgba(255,255,255,.09);border-radius:12px;";
+
+        const author = document.createElement("strong");
+        author.textContent = post.username || "Member";
+
+        const body = document.createElement("p");
+        body.textContent = post.body;
+
+        const likeButton = document.createElement("button");
+        likeButton.textContent = "♡ Like";
+
+        const { count } = await client
+          .from("community_post_likes")
+          .select("*", { count: "exact", head: true })
+          .eq("post_id", post.id);
+
+        likeButton.textContent = "♡ Like (" + (count || 0) + ")";
+
+        likeButton.addEventListener("click", async () => {
+          const account = await communityUser();
+          if (!account) return;
+
+          const { data: existing } = await client
+            .from("community_post_likes")
+            .select("post_id")
+            .eq("post_id", post.id)
+            .eq("user_id", account.user.id)
+            .maybeSingle();
+
+          if (existing) {
+            await client.from("community_post_likes")
+              .delete()
+              .eq("post_id", post.id)
+              .eq("user_id", account.user.id);
+          } else {
+            const { error: likeError } = await client
+              .from("community_post_likes")
+              .insert({
+                post_id: post.id,
+                user_id: account.user.id
+              });
+
+            if (likeError) {
+              communityStatus(panel, likeError.message);
+              return;
+            }
+          }
+
+          await loadCommunityPosts();
+        });
+
+        const comments = document.createElement("div");
+        const { data: commentData } = await client
+          .from("community_comments")
+          .select("*")
+          .eq("post_id", post.id)
+          .order("created_at", { ascending: true });
+
+        (commentData || []).forEach(comment => {
+          const line = document.createElement("p");
+          line.textContent =
+            (comment.username || "Member") + ": " + comment.body;
+          comments.appendChild(line);
+        });
+
+        const commentInput = document.createElement("input");
+        commentInput.placeholder = "Write a comment...";
+
+        const commentButton = document.createElement("button");
+        commentButton.textContent = "Reply";
+
+        commentButton.addEventListener("click", async () => {
+          const text = commentInput.value.trim();
+          if (!text) return;
+
+          const account = await communityUser();
+          if (!account) return;
+
+          const { error: commentError } = await client
+            .from("community_comments")
+            .insert({
+              post_id: post.id,
+              user_id: account.user.id,
+              username: account.username,
+              body: text
+            });
+
+          if (commentError) {
+            communityStatus(panel, commentError.message);
+            return;
+          }
+
+          await loadCommunityPosts();
+        });
+
+        card.append(author, body, likeButton, comments,
+          commentInput, commentButton);
+        list.appendChild(card);
+      }
+    }
+
+    byId("community-post-submit").addEventListener("click", async () => {
+      const input = byId("community-post-input");
+      const body = input.value.trim();
+      const panel = byId("community-posts-panel");
+
+      if (!body) return;
+
+      const account = await communityUser();
+      if (!account) return;
+
+      const { error } = await client.from("community_posts").insert({
+        user_id: account.user.id,
+        username: account.username,
+        body: body
+      });
+
+      if (error) {
+        communityStatus(panel, error.message);
+        return;
+      }
+
+      input.value = "";
+      await loadCommunityPosts();
+    });
+
+    async function loadCommunityPolls() {
+      const panel = byId("community-polls-panel");
+      const list = byId("community-poll-list");
+
+      list.replaceChildren();
+
+      const createBox = document.createElement("div");
+      const question = document.createElement("input");
+      question.placeholder = "Enter poll question";
+
+      const optionOne = document.createElement("input");
+      optionOne.placeholder = "Option 1";
+
+      const optionTwo = document.createElement("input");
+      optionTwo.placeholder = "Option 2";
+
+      const createButton = document.createElement("button");
+      createButton.textContent = "Create Poll";
+
+      createButton.addEventListener("click", async () => {
+        const q = question.value.trim();
+        const options = [optionOne.value.trim(), optionTwo.value.trim()]
+          .filter(Boolean);
+
+        if (!q || options.length < 2) {
+          communityStatus(panel, "Enter a question and at least two options.");
+          return;
+        }
+
+        const account = await communityUser();
+        if (!account) return;
+
+        const { data: poll, error } = await client
+          .from("community_polls")
+          .insert({
+            user_id: account.user.id,
+            username: account.username,
+            question: q
+          })
+          .select()
+          .single();
+
+        if (error) {
+          communityStatus(panel, error.message);
+          return;
+        }
+
+        const { error: optionError } = await client
+          .from("community_poll_options")
+          .insert(options.map(option => ({
+            poll_id: poll.id,
+            option_text: option
+          })));
+
+        if (optionError) {
+          communityStatus(panel, optionError.message);
+          return;
+        }
+
+        await loadCommunityPolls();
+      });
+
+      createBox.append(question, optionOne, optionTwo, createButton);
+      list.appendChild(createBox);
+
+      const { data: polls, error } = await client
+        .from("community_polls")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        communityStatus(panel, error.message);
+        return;
+      }
+
+      for (const poll of polls || []) {
+        const card = document.createElement("div");
+        card.style.cssText =
+          "padding:14px;margin:12px 0;background:rgba(255,255,255,.09);border-radius:12px;";
+
+        const heading = document.createElement("h3");
+        heading.textContent = poll.question;
+        card.appendChild(heading);
+
+        const { data: options } = await client
+          .from("community_poll_options")
+          .select("*")
+          .eq("poll_id", poll.id);
+
+        for (const option of options || []) {
+          const voteButton = document.createElement("button");
+          voteButton.textContent = option.option_text;
+
+          voteButton.addEventListener("click", async () => {
+            const account = await communityUser();
+            if (!account) return;
+
+            const { data: previous } = await client
+              .from("community_poll_votes")
+              .select("option_id")
+              .eq("poll_id", poll.id)
+              .eq("user_id", account.user.id)
+              .maybeSingle();
+
+            if (previous) {
+              communityStatus(panel, "You have already voted in this poll.");
+              return;
+            }
+
+            const { error: voteError } = await client
+              .from("community_poll_votes")
+              .insert({
+                poll_id: poll.id,
+                option_id: option.id,
+                user_id: account.user.id
+              });
+
+            if (voteError) {
+              communityStatus(panel, voteError.message);
+              return;
+            }
+
+            await loadCommunityPolls();
+          });
+
+          const { count } = await client
+            .from("community_poll_votes")
+            .select("*", { count: "exact", head: true })
+            .eq("option_id", option.id);
+
+          const countText = document.createElement("span");
+          countText.textContent = " — " + (count || 0) + " votes";
+
+          const row = document.createElement("p");
+          row.append(voteButton, countText);
+          card.appendChild(row);
+        }
+
+        list.appendChild(card);
+      }
+    }
+
+    async function startCommunity() {
+      if (communityStarted) return;
+
+      const account = await communityUser();
+      if (!account) return;
+
+      communityStarted = true;
+
+      await loadCommunityMessages();
+      await loadCommunityPosts();
+      await loadCommunityPolls();
+
+      communityChannel = client
+        .channel("gpt-community-live")
+        .on("postgres_changes", {
+          event: "*",
+          schema: "public",
+          table: "community_messages"
+        }, loadCommunityMessages)
+        .on("postgres_changes", {
+          event: "*",
+          schema: "public",
+          table: "community_posts"
+        }, loadCommunityPosts)
+        .on("postgres_changes", {
+          event: "*",
+          schema: "public",
+          table: "community_polls"
+        }, loadCommunityPolls)
+        .subscribe();
+    }
+
+    document.addEventListener("click", event => {
+      const link = event.target.closest('a[href="#gpt-community"]');
+      if (link) startCommunity();
+    });
+ }
+         
+
   refreshSession();
 })();
      </script>
