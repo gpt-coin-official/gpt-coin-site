@@ -2254,6 +2254,58 @@ body:has(#ai-chat:not(.screen-active)) > #logout-modal {
 </footer>
 
 
+<section id="gpt-community" data-screen="gpt-community">
+  <div class="community-container">
+    <h2>GPT COIN COMMUNITY</h2>
+    <p>Welcome to the GPT Coin Community!</p>
+
+    <div class="community-tabs">
+      <button type="button" id="community-chat-tab">Group Chat</button>
+      <button type="button" id="community-posts-tab">Posts</button>
+      <button type="button" id="community-polls-tab">Polls</button>
+    </div>
+
+    <div id="community-chat-panel">
+      <div id="community-messages">
+        <p>Welcome! Start chatting with the community.</p>
+      </div>
+
+      <div class="community-compose">
+        <label for="community-image">🖼️</label>
+        <input type="file" id="community-image" accept="image/*" hidden>
+
+        <input
+          type="text"
+          id="community-message-input"
+          placeholder="Type a message..."
+        >
+
+        <label for="community-file">📎</label>
+        <input type="file" id="community-file" hidden>
+
+        <button type="button" id="community-send">➤</button>
+      </div>
+    </div>
+
+    <div id="community-posts-panel" hidden>
+      <h3>Community Posts</h3>
+      <textarea id="community-post-input"
+        placeholder="Write a post..."></textarea>
+      <button type="button" id="community-post-submit">
+        Create Post
+      </button>
+      <div id="community-post-list"></div>
+    </div>
+
+    <div id="community-polls-panel" hidden>
+      <h3>Polls & Voting</h3>
+      <div id="community-poll-list"></div>
+    </div>
+  </div>
+</section>
+ 
+ 
+
 <section class="chat-shell" id="ai-chat" data-screen="ai-chat">
   <div class="chat-panel">
     
